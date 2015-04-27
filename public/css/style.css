@@ -1,0 +1,19 @@
+.bigicon {
+    font-size: 35px;
+    color: #36A0FF;
+}
+#logo{
+    height: 100%;
+}
+
+.md-button{
+    padding:2em;
+}
+.top-margin{
+    margin-top:2em;
+}
+
+.angular-google-map-container,#googleMap{
+    height: 400px;
+    display: block;
+}

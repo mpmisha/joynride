@@ -1,2 +1,2 @@
 # joynride
-Tel aviv university project
+Tel aviv uni project
