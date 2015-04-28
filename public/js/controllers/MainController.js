@@ -33,6 +33,16 @@ angular.module('joynRideApp').controller('MainController', function ($scope,$win
         }
     }
 
+    $scope.types = [{
+        name:'driver',
+        h1:'Publish A Ride',
+        h3:'publish travels you want hitchhikers to join'
+    },{
+        name:'passenger',
+        h1:'Join hitch',
+        h3:'see available travels that suit you best'
+    }
+    ]
     $scope.alert = function(message){
         $window.alert(message);
     }

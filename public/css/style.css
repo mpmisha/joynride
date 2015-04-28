@@ -12,8 +12,24 @@
 .top-margin{
     margin-top:2em;
 }
+.side-margin{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.bottom-margin{
+    margin-bottom: 20px;
+}
 
 .angular-google-map-container,#googleMap{
     height: 400px;
     display: block;
+}
+
+.typeSelect{
+    padding:10px;
+    border-radius: 20px;
+    border:2px grey solid;
+    margin-top:10px;
+    margin-bottom: 10px;
+    background-color: rgba(125, 171, 178, 0.93) ;;
 }
