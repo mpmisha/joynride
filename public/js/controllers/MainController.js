@@ -3,7 +3,6 @@
  */
 angular.module('joynRideApp').controller('MainController', function ($scope,$window) {
     window.scope = $scope
-
     $scope.displayMap=false;
     $scope.directionsService = new google.maps.DirectionsService();
     $scope.options = {
@@ -87,7 +86,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope,$win
             $scope.map.markers[location].coordinates={
                 latitude:$scope.map[location].geometry.location.lat(),
                 longitude:$scope.map[location].geometry.location.lng()
-            }
+            };
             $scope.showRoute();
         }
 

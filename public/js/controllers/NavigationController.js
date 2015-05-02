@@ -1,18 +1,44 @@
 /**
  * Created by Michael on 4/24/2015.
  */
-angular.module('joynRideApp').controller('NavigationController', function($scope,$rootScope,$location) {
 
+
+angular.module('joynRideApp').controller('NavigationController', ['$scope', '$rootScope', '$location', 'Auth', function ($scope, $rootScope, $location, Auth) {
+
+    $scope.user = {};
+    if (Auth.isLoggedIn()) {
+        $scope.user = Auth.getUser();
+    }
     $scope.menu = [
-        {label:'Home', route:'/'},
-        {label:'About', route:'/about'},
-        {label:'Contact', route:'/contact'}
+        {label: 'Home', route: '/'},
+        {label: 'About', route: '/about'},
+        {label: 'Contact', route: '/contact'}
     ]
 
-
     $scope.menuActive = '/';
-
-    $rootScope.$on('$routeChangeSuccess', function(e, curr, prev) {
+    $rootScope.$on('$routeChangeSuccess', function (e, curr, prev) {
         $scope.menuActive = $location.path();
     });
-});
+
+    $scope.logout = function () {
+        localStorage.clear();
+        $location.path('/login');
+    }
+    $scope.isLoggedIn = function () {
+        return Auth.isLoggedIn();
+    }
+
+}]);
+
+
+angular.module('joynRideApp').run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+
+        if (!Auth.isLoggedIn()) {
+            //console.log('DENY');
+            $location.path('/login');
+        } else {
+            //console.log('ALLOW');
+        }
+    });
+}]);

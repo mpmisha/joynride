@@ -6,9 +6,9 @@
         <section layout="row" layout-sm="column" layout-align="center center">
             <div ng-repeat="type in types" class="col-lg-3 col-md-6 col-sm-12 side-margin typeSelect" ng-click="selectTransport(type.name)">
                 <h1 class="col-lg-12">{{type.h1}}</h1>
-                <h3 style="height: 20px;">{{type.h3}}</h3>
+                <h3 style="height: 60px;">{{type.h3}}</h3>
                 <div class="col-lg-12 col-sm-12 bottom-margin">
-                    <img src="../img/{{type.name}}.png" width="100%" >
+                    <img src="../img/{{type.name}}.png" class="opacity-hover" width="100%" >
                 </div>
             </div>
         </section>
