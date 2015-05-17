@@ -6,5 +6,11 @@ var joynRideApp = angular.module('joynRideApp', [
     'ngMaterial',
     'ngRoute',
     'uiGmapgoogle-maps',
-    'google.places'
+    'google.places',
+    'cgNotify'
 ]);
+
+joynRideApp.config(function($httpProvider) {
+    //Enable cross domain calls
+    $httpProvider.defaults.useXDomain = true;
+});

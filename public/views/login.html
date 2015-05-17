@@ -5,7 +5,7 @@
     <h2 class="form-signin-heading">Please sign in</h2>
         <div class="form-group">
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus ng-model="user.email">
+            <input type="text" id="inputEmail" class="form-control" placeholder="Email address" required autofocus ng-model="user.email">
         </div>
 
     <br/>
@@ -16,7 +16,11 @@
             <input type="checkbox" value="remember-me"> Remember me
         </label>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" ng-click="submitForm()">Sign in</button>
+
+
+    <button class="btn btn-lg btn-primary col-lg-5" ng-click="submitForm()">Sign in</button>
+        <span class="col-lg-2"></span>
+    <button class="btn btn-lg btn-info col-lg-5" ng-click="signUp()">Sign up</button>
 </form>
 
 </div>

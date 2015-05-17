@@ -8,9 +8,11 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
     $scope.user = {};
     if (Auth.isLoggedIn()) {
         $scope.user = Auth.getUser();
+        console.log("user :",$scope.user)
     }
     $scope.menu = [
         {label: 'Home', route: '/'},
+        {label: 'rank', route: '/rank'},
         {label: 'About', route: '/about'},
         {label: 'Contact', route: '/contact'}
     ]
@@ -18,11 +20,15 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
     $scope.menuActive = '/';
     $rootScope.$on('$routeChangeSuccess', function (e, curr, prev) {
         $scope.menuActive = $location.path();
+        $scope.user = Auth.getUser();
     });
 
     $scope.logout = function () {
         localStorage.clear();
         $location.path('/login');
+    }
+    $scope.edit = function () {
+        $location.path('/editUser');
     }
     $scope.isLoggedIn = function () {
         return Auth.isLoggedIn();

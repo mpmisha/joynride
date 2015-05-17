@@ -45,3 +45,23 @@
     -moz-box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
 }
+.ratingContainer{
+    height: 35px;
+}
+.ratingContainer .glyphicon{
+    height: 24px;
+    width: 25px;
+}
+
+.glyphicon-star{
+    /*color:transparent;*/
+    background-image: url('../img/star_full.png');
+}
+.glyphicon-star-empty{
+    /*color:transparent;*/
+    background: url('../img/star_empty.png') ;
+}
+.star_half{
+    /*color:transparent;*/
+    background-image: url('../img/star_half.png');
+}

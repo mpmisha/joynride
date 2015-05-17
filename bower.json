@@ -9,6 +9,8 @@
     "angular-route": "latest",
     "angular-material": "~0.8.3",
     "angular-google-maps": "~2.0.19",
-    "angular-google-places-autocomplete": "~0.2.5"
+    "angular-google-places-autocomplete": "~0.2.5",
+    "angular-notify": "~2.5.0",
+    "angular-bootstrap": "~0.13.0"
   }
 }

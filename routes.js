@@ -19,6 +19,7 @@ module.exports = function (app) {
         if(req.body.email=='a@a.a' && req.body.password=='a'){
             res.status(200).json({
                 email:req.body.email,
+                ridesToRank:3,
                 token:'123'
             });
         }else{

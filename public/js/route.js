@@ -12,11 +12,17 @@ joynRideApp.config(function($routeProvider){
     }).when('/login',{
         templateUrl : 'views/login.html',
         controller : 'LoginController'
+    }).when('/signUp',{
+        templateUrl : 'views/signup.html',
+        controller : 'SignupController'
     }).when('/about',{
         templateUrl: 'views/about.html',
         controller : 'AboutController'
     }).when('/contact', {
         templateUrl : 'views/contact.html',
         controller  : 'ContactController'
+    }).when('/rank', {
+        templateUrl : 'views/rank.html',
+        controller  : 'RankController'
     });
 });
