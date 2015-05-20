@@ -7,7 +7,8 @@ var joynRideApp = angular.module('joynRideApp', [
     'ngRoute',
     'uiGmapgoogle-maps',
     'google.places',
-    'cgNotify'
+    'cgNotify',
+    'ui.bootstrap'
 ]);
 
 joynRideApp.config(function($httpProvider) {

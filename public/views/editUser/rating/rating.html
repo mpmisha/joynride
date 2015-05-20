@@ -1,0 +1,10 @@
+<div class="well" ng-repeat="(key,value) in rating" style="height: 60px;">
+        <div class="pull-left col-lg-5">
+                {{key.replace('_',' ')}}
+        </div>
+        <div class="pull-right col-lg-5">
+                <rating ng-model="value" class="ratingContainer" readonly="true"
+                        state-on="star_full" state-off="star_empty"
+                         flex></rating>({{value}})
+        </div>
+</div>

@@ -33,7 +33,7 @@ angular.module('joynRideApp').controller('RankController', function ($scope) {
     };
 
     $scope.ratingStates = [
-        {stateOn: 'star yyy full', stateOff: 'star xxxx empty'},
+        {stateOn: 'star full', stateOff: 'star empty'},
     ];
 
 

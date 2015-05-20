@@ -8,9 +8,8 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
         userName: '',
         password: ''
     }
-    $scope.signUp = function(){
-        console.log('yo!');
-        $location.path('/signUp');
+    $scope.signUp = function () {
+        $location.path('/signup');
     }
     $scope.submitForm = function () {
         //Request.get('/authentication?userName='+$scope.user.userName+'&password='+$scope.user.password,function(data){ //TODO:switch to this
@@ -43,6 +42,5 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
         }, function (error) {
             $window.alert(error)
         })
-
     }
 });

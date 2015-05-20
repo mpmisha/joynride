@@ -54,14 +54,14 @@
 }
 
 .glyphicon-star{
-    /*color:transparent;*/
+    color:transparent;
     background-image: url('../img/star_full.png');
 }
 .glyphicon-star-empty{
-    /*color:transparent;*/
+    color:transparent;
     background: url('../img/star_empty.png') ;
 }
 .star_half{
-    /*color:transparent;*/
+    color:transparent;
     background-image: url('../img/star_half.png');
 }

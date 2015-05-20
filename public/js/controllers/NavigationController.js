@@ -38,9 +38,8 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
 
 
 angular.module('joynRideApp').run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
-    $rootScope.$on('$routeChangeStart', function (event) {
-
-        if (!Auth.isLoggedIn()) {
+    $rootScope.$on('$routeChangeStart', function (event,next) {
+        if (!Auth.isLoggedIn() && next.$$route.originalPath !='/signup' ) {
             //console.log('DENY');
             $location.path('/login');
         } else {

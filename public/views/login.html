@@ -1,26 +1,26 @@
-
 <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
 <div class="container col-lg-4 col-md-6 col-sm-10">
     <form class="form-signin" name="loginForm">
-    <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">Please sign in</h2>
         <div class="form-group">
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="text" id="inputEmail" class="form-control" placeholder="Email address" required autofocus ng-model="user.email">
         </div>
 
-    <br/>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="user.password">
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-    </div>
+        <br/>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required ng-model="user.password">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
 
 
-    <button class="btn btn-lg btn-primary col-lg-5" ng-click="submitForm()">Sign in</button>
-        <span class="col-lg-2"></span>
-    <button class="btn btn-lg btn-info col-lg-5" ng-click="signUp()">Sign up</button>
+        <button class="btn btn-lg btn-primary col-lg-5 col-md-5 col-sm-5" ng-click="submitForm()">Sign in</button>
+        <span class="col-lg-2 col-md-2 col-sm-2"></span>
+        <button class="btn btn-lg btn-info col-lg-5 col-md-5 col-sm-5" ng-click="signUp()">Sign up</button>
+
 </form>
 
 </div>
