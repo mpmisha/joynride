@@ -1,7 +1,6 @@
-<html>
 <?php
-    $con = mysql_connect("localhost", "root", "dani1994");
-    mysql_select_db("joynride");
+
+    include('db_conf.php');
 	
 	##########################################################################################
 	#Usage: ?pass_id=1&driver_id=1&punc_rate=2&safety_rate=3&atmo_rate=3&gen_rate=5
@@ -33,16 +32,26 @@
 		$insertion = mysql_query("UPDATE rates SET punctuality = $punc, safety = $safety, atmosphere = $atmo, general_rank = $gen, total_number_of_ranking = $total WHERE driver_id = $driver_id AND passenger_id = $pass_id");
 	}
 
-	if ($insertion) {
-?>
-	<h2>insertion succeed</h2>
-<?php
-	}
-	else {
-?>
-	<h2>insertion failed</h2>
-<?php
-	}
+	if (!$insertion) {
+	
+		$returned_arr = array('error' => 'Server is down');
+		$reply = json_encode($returned_arr);
+		
+			if(array_key_exists('callback', $_GET)){
 
+				header('Content-Type: text/javascript; charset=utf8');
+				header('Access-Control-Allow-Origin: http://localhost:8080/');
+				header('Access-Control-Max-Age: 3628800');
+				header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+				$callback = $_GET['callback'];
+				echo $callback.'('.$reply.');';
+
+			}else{
+				// normal JSON string
+				header('Content-Type: application/json; charset=utf8');
+
+				echo $reply;
+			}
+	}
 ?>
-</html>

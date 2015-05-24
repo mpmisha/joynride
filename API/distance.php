@@ -1,6 +1,4 @@
-<html>
 <?php
- 
 
 $src = $_GET['src'];
 $dst = $_GET['dst'];
@@ -42,4 +40,3 @@ function getLatLong($address) {
 
 
 ?>
-</html>

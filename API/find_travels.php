@@ -4,36 +4,36 @@
 
 include('db_conf.php');
 ##############################################################################
-#USAGE example: ?srcx=12.23&srcy=12.56&dstx=32.0852999&dsty=34.7817676&date=%272015-05-07%27&time=%2715:30:00%27&&max_price=20
+#USAGE:
+#?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15
+
 #notes:
 #	1. take care of transaction_id [AI] !
-#	2. find way to replace path example in query with real path
-##############################################################################
-
-#input : details about the travel the hitchiker is looking for:
+#	2. transaction_id is not!!! in the right order. we need to order them by closest time and than by rate.
+###############################################################################
 $source_x = $_GET['srcx'];
 $source_y = $_GET['srcy'];
 $dest_x = $_GET['dstx'];
 $dest_y = $_GET['dsty'];
-$departure_date = $_GET['date'];
-$departure_time = $_GET['time'];
+$date = "DATE " . "'" . $_GET['date'] . "'";
+$time ="TIME " . "'" . $_GET['time'] . "'";
 $max_price = $_GET['max_price'];
 
-#check that the time = time -\+ 1, max_price >= price, date=date
 
-$query = mysql_query("
-SELECT * 
-FROM transaction_info
-WHERE departure_date = $departure_date
-AND price_per_person <= $max_price
-AND (SELECT ADDTIME(departure_time, '-01:00:00')) <= $departure_time
-AND (SELECT ADDTIME(departure_time, '01:00:00')) >= $departure_time
-AND num_of_vacant_sits > 0
-");
 
+$query = mysql_query("SELECT * 
+	FROM transaction_info
+	WHERE $date = departure_date
+	AND $max_price >= price_per_person
+	AND  ADDTIME(departure_time, '-01:00:00') <= $time AND ADDTIME(departure_time, '+01:00:00') >= $time
+	;");
+
+if(!$query){
+	echo "error!";
+}
 $final_set = array();
-$json_trans="[ ";
 $length = mysql_num_rows($query);
+
 for ($i = 0; $i < $length ; $i++) {
 	$array = mysql_fetch_array($query);
 	$path = $array['the_path'];
@@ -42,18 +42,14 @@ for ($i = 0; $i < $length ; $i++) {
 			array_push($final_set, $array['transaction_id']);
 
 		}
-		#$tran = array('transaction_id' => $array['transaction_id'], 'source_addr' => $array['source_addr'], 'dest_addr' => $array['dest_addr'], 'departure_time' => $array['departure_time'], 'departure_date' => $array['departure_date'], 'price_per_person' => $array['price_per_person'], 'the_path' => $array['the_path']);
-		#$json_tran = json_encode($tran);
-		#$json_trans = $json_trans.$json_tran;
+
 	}
 }
-#$json_trans=$json_trans." ]";
-#echo $json_trans;
+
 $json = json_encode($final_set);
-echo "final :   ".$json;
+echo $json;
 
 #'[{"x":31.804381, "y":34.655314}, {"x":2,"y":8}, {"x":67,"y":9}]'
-
 
 
 
@@ -79,16 +75,17 @@ function len($obj){
 
 #the function gets location: src(of real travel), location: mysrc (of search) and radius: r and return true iff the distance between src and mysrc <= radius
 function is_in_radius($srcx, $srcy, $mysrcx, $mysrcy, $r){
+	#compute distance between the src of the driver and the src of the hitcher:
 	$url = sprintf("https://maps.googleapis.com/maps/api/distancematrix/json?origins=(%f,%f)&destinations=(%f,%f)&mode=driving&language=EN",$srcx, $srcy, $mysrcx, $mysrcy);
-	echo "url is : ".$url;
-	$ch = curl_init();
+	$urloutput=file_get_contents($url); 
+	$json = json_decode($urloutput);
+	$dis_in_meters = $json->{"rows"}[0]->{'elements'}[0]->{'distance'}->{'value'};
+	$dis_in_meters = intval(json_encode($dis_in_meters))/1000;
 
-	curl_setopt($ch, CURLOPT_URL,$url); 
-	#curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, true);
-	$res= curl_exec($ch);
-	$json = json_encode($res);
-	echo $json;
-	echo $res;
-
+	#check whether the distance is smaller than the radius the driver permited
+	if($dis_in_meters <= $r){
+		return 1;
+	}
+	return 0;
 }
 ?>

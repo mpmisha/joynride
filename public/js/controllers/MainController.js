@@ -54,7 +54,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
 
     $scope.dynamicPopover = {
         rateTemplate: 'rateTemplate.html',
-        driverTemplate : 'driverTemplate.html',
+        driverTemplate: 'driverTemplate.html',
         title: 'driver rates'
     };
 
@@ -111,10 +111,12 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         $scope.travelInfoArr = [];
         for (var i = 0; i < travelArr.length; i++) {
             (function (index) {
-                var travelObj = {};
+                var id = travelArr[i], travelObj = {};
+
                 Request.get('/get_transaction_info?tran_id=' + travelArr[i]
                     , function (data) {
                         travelObj.drive = data;
+                        travelObj.drive.id = id;
                         travelObj.driver = {};
                         Request.get('/get_personal_info?id=' + travelObj.drive.driver_id
                             , function (data) {
@@ -146,19 +148,26 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         }
     }
 
-    $scope.selectRide = function(travel){
-        console.log('travel =',travel);
+    $scope.selectRide = function (travel) {
+
+        Request.get('/declare_request?tran_id=' + travel.drive.id + '&pass_id=' + JSON.parse(localStorage.user).user_id + '&src=' + travel.drive.source + '&src_pass_x=' + $scope.map.markers.from.coordinates.latitude + '&src_pass_y=' + $scope.map.markers.from.coordinates.longitude + '&dst=' + travel.drive.dest + '&dst_pass_x=' + $scope.map.markers.to.coordinates.latitude + '&dst_pass_y=' + $scope.map.markers.to.coordinates.longitude + '&status=0',
+            function (data) {
+                console.log('data  -', data)
+            },
+            function (err) {
+                console.log("err - ", err);
+            });
     }
     $scope.sortTableBy = function (field) {
-        if($scope.sort[field]){
-            $scope.sort[field]=($scope.sort[field]=='asc'?'desc':'asc');
-        }else{
-            $scope.sort[field]='asc';
+        if ($scope.sort[field]) {
+            $scope.sort[field] = ($scope.sort[field] == 'asc' ? 'desc' : 'asc');
+        } else {
+            $scope.sort[field] = 'asc';
         }
-        console.log('$scope.sort['+field+'] - ',$scope.sort[field])
+        console.log('$scope.sort[' + field + '] - ', $scope.sort[field])
         $scope.tableParams.reload();
     }
-    $scope.sort={id:'asc'};
+    $scope.sort = {id: 'asc'};
     function updateData() {
         $scope.tableParams = new ngTableParams({
             page: 1,            // show first page
@@ -225,4 +234,5 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         });
 
     };
-});
+})
+;

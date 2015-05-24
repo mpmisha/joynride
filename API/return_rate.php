@@ -1,7 +1,6 @@
-<html>
 <?php
-    $con = mysql_connect("localhost", "root", "dani1994");
-    mysql_select_db("joynride");
+	
+    include('db_conf.php');
 	
 	##########################################################################################
 	#Usage: ?driver_id=1
@@ -29,7 +28,22 @@
 	$general = round($general / $total, 2);
 
 	$returned_arr = array('punctuality' => $punc, 'safety' => $safety, 'atmosphere' => $atmo, 'general_rank' => $general);
-	echo json_encode($returned_arr);
+	$reply = json_encode($returned_arr);
 	
+			if(array_key_exists('callback', $_GET)){
+
+				header('Content-Type: text/javascript; charset=utf8');
+				header('Access-Control-Allow-Origin: http://localhost:8080/');
+				header('Access-Control-Max-Age: 3628800');
+				header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+				$callback = $_GET['callback'];
+				echo $callback.'('.$reply.');';
+
+			}else{
+				// normal JSON string
+				header('Content-Type: application/json; charset=utf8');
+
+				echo $reply;
+			}
 ?>
-</html>

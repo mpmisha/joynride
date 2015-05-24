@@ -1,10 +1,11 @@
 <?php
 
 include('db_conf.php');
+include('lib_functions.php');
 
 ##############################################################################
 
-#USAGE example: ?id='4'&tran_id='2'
+#USAGE example: ?id=4&tran_id=2
 
 #PLAN:
 
@@ -29,28 +30,28 @@ $tran_id = $_GET['tran_id']; #the transaction's id (user id)
 
 #extract the driver's id
 function get_driver_id($tran_id){
-	$query = mysql_query("SELECT driver_id FROM `transaction_info`  WHERE (transaction_id=$tran_id)");
+	$query = mysql_query("SELECT driver_id FROM `transaction_info`  WHERE (transaction_id='$tran_id')");
 	$row = mysql_fetch_array($query);
-	return $row[0];
-}
-
-#extract the user's id
-function get_traveller_info($user_id){
-	$query = mysql_query("SELECT * FROM `personal_info` WHERE (user_id=$user_id)");
-	$row = mysql_fetch_array($query);
-	return $row;
+	return (int)$row[0];
 }
 
 #inform the driver - retrieve the info about the traveller 
+$reply = json_encode(array_merge(array('driver_id' => get_driver_id($tran_id)), get_traveller_info($id)));
 
-$traveller_info = get_traveller_info($id);
-$name = $traveller_info['first_name'] . $traveller_info['last_name'];
-$mail1 = $traveller_info['uni_email_address'];
-$mail2 = $traveller_info['alternative_email_address'];
-$phone_num = $traveller_info['phone_number'];
-$pic_path = $traveller_info['picture_path'];
+			if(array_key_exists('callback', $_GET)){
 
-$arr = array('driver_id' => get_driver_id($tran_id), 'trav_name' => $name, 'trav_mail1' => $mail1, 'trav_mail2' => $mail2, 'trav_phone' => $phone_num, 'trav_pic' => $pic_path);
-echo json_encode($arr);
+				header('Content-Type: text/javascript; charset=utf8');
+				header('Access-Control-Allow-Origin: http://localhost:8080/');
+				header('Access-Control-Max-Age: 3628800');
+				header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 
+				$callback = $_GET['callback'];
+				echo $callback.'('.$reply.');';
+
+			}else{
+				// normal JSON string
+				header('Content-Type: application/json; charset=utf8');
+
+				echo $reply;
+			}
 ?>
