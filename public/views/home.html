@@ -4,11 +4,14 @@
 
     <md-content>
         <section layout="row" layout-sm="column" layout-align="center center">
-            <div ng-repeat="type in types" class="col-lg-3 col-md-6 col-sm-12 side-margin typeSelect" ng-click="selectTransport(type.name)">
+            <div ng-repeat="type in types" class="col-lg-3 col-md-6 col-sm-12 side-margin typeSelect"
+                 ng-click="selectTransport(type.name)">
                 <h1 class="col-lg-12">{{type.h1}}</h1>
+
                 <h3 style="height: 60px;">{{type.h3}}</h3>
+
                 <div class="col-lg-12 col-sm-12 bottom-margin">
-                    <img src="../img/{{type.name}}.png" class="opacity-hover" width="100%" >
+                    <img src="../img/{{type.name}}.png" class="opacity-hover" width="100%">
                 </div>
             </div>
         </section>
@@ -29,9 +32,18 @@
                             </md-input-container>
                             <md-input-container class="text-left">
                                 <label>Date</label>
-                                <input type="date">
+                                <input type="date" ng-model="ride.date">
                             </md-input-container>
-                            <md-input-container class="text-left" ng-if="options['driver']">
+                            <div class="text-left">
+                                <timepicker ng-model="ride.time" hour-step="[1, 2, 3]"
+                                            minute-step="[1, 5, 10, 15, 25, 30]" show-meridian="false"></timepicker>
+                                <pre class="alert alert-info">Time is: {{map.time | date:'shortTime' }}</pre>
+                            </div>
+                            <md-input-container class="text-left" ng-if="options['passenger']">
+                                <label>max price</label>
+                                <input type="number" min="0" ng-model="ride.maxPrice">
+                            </md-input-container>
+                            <md-input-container class="text-left" ng-model="ride.maxPlaces" ng-if="options['driver']">
                                 <label>Places</label>
                                 <input type="number" min="0" max="10">
                             </md-input-container>
@@ -45,9 +57,75 @@
                             </ui-gmap-google-map>
                         </div>
                     </div>
-                    <md-button class="md-raised col-lg-12 col-md-12 col-sm-12 top-margin" ng-click="alert('nothing happens here yet :),      hope you played with the map ')"> Submit request</md-button>
+                    <md-button class="md-raised col-lg-12 col-md-12 col-sm-12 top-margin"
+                               ng-click="sendRequest()">
+                        Submit request
+                    </md-button>
+                </div>
+            </section>
+        </div>
+        <div>
+            <section class="top-margin" layout="row" layout-sm="row" layout-align="center center">
+                <div class="col-md-7 col-sm-6 well" ng-if="travelInfoArr">
+                    <table  class="table" style="text-align:center;">
+                        <th ng-click="sortTableBy('id')">driver id</th>
+                        <th ng-click="sortTableBy('time')">time</th>
+                        <th ng-click="sortTableBy('date')">date</th>
+                        <th ng-click="sortTableBy('price')">price</th>
+                        <th>Avg. driver rate (mouse-over)</th>
+                        <th></th>
+                        <tr ng-repeat="travel in travelInfoArr">
+                            <td data-title="'id'"><span popover-template='dynamicPopover.driverTemplate'
+                                                        ng-mouseover="dynamicPopover.travel=travel" popover-trigger="mouseenter">{{travel.driver.id}}</span>
+                            </td>
+                            <td data-title="'time'">{{travel.drive.time}}</td>
+                            <td data-title="'date'">{{travel.drive.date}}</td>
+                            <td data-title="'price'">{{travel.drive.price}}</td>
+                            <td data-title="'Avg. driver rate'" sortable="'driver.avg'">
+                                <span popover-template='dynamicPopover.rateTemplate'
+                                      ng-mouseover="dynamicPopover.travel=travel" popover-trigger="mouseenter">{{travel.driver.avg}}</span>
+                            </td>
+                            <td>
+                                <span ng-click="selectRide(travel)" class="glyphicon glyphicon-send" alt="select ride">
+                                </span>
+                            </td>
+
+                        </tr>
+                    </table>
                 </div>
             </section>
         </div>
     </md-content>
 </div>
+
+
+<script type="text/ng-template" id="rateTemplate.html">
+    <div>rates for driver <b>{{dynamicPopover.travel.driver.f_name}} {{dynamicPopover.travel.driver.l_name}}</b></div>
+    <div class="form-group">
+        <ul class="list-group">
+            <li ng-repeat="(key,value) in dynamicPopover.travel.driver.rate" class="list-group-item">{{key}} :
+                {{value}}
+            </li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/ng-template" id="driverTemplate.html">
+
+    <div><b>{{dynamicPopover.travel.driver.f_name}} {{dynamicPopover.travel.driver.l_name}}</b></div>
+    <div class="form-group">
+        <ul class="list-group">
+
+            <li class="list-group-item">
+                uni mail : {{dynamicPopover.travel.driver.uni_mail}}
+            </li>
+            <li class="list-group-item">
+                alt mail : {{dynamicPopover.travel.driver.alt_mail}}
+            </li>
+            <li class="list-group-item">
+                phone : {{dynamicPopover.travel.driver.phone}}
+            </li>
+        </ul>
+    </div>
+</script>
+

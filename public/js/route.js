@@ -27,6 +27,9 @@ joynRideApp.config(function($routeProvider) {
     }).when('/rank', {
         templateUrl: 'views/rank.html',
         controller: 'RankController'
+    }).when('/myDrives', {
+        templateUrl: 'views/myDrives.html',
+        controller: 'MyDrivesController'
     }).when('/404', {
         templateUrl: 'views/404.html'
     }).otherwise({redirectTo: '/404'});

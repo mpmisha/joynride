@@ -25,6 +25,10 @@
     display: block;
 }
 
+.table,.table tr th{
+    text-align: center;
+}
+
 .typeSelect{
     padding:10px;
     border-radius: 20px;

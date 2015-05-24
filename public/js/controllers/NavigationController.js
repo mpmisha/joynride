@@ -14,6 +14,7 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
         {label: 'Home', route: '/'},
         {label: 'rank', route: '/rank'},
         {label: 'About', route: '/about'},
+        {label: 'My Drives', route: '/myDrives'},
         {label: 'Contact', route: '/contact'}
     ]
 
