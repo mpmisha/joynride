@@ -12,6 +12,7 @@
     "angular-google-places-autocomplete": "~0.2.5",
     "angular-notify": "~2.5.0",
     "angular-bootstrap": "~0.13.0",
-    "ng-table": "~0.5.4"
+    "ng-table": "~0.5.4",
+    "angular-spinner": "~0.6.1"
   }
 }

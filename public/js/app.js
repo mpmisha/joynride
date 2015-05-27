@@ -9,7 +9,9 @@ var joynRideApp = angular.module('joynRideApp', [
     'google.places',
     'cgNotify',
     'ui.bootstrap',
+    'angularSpinner',
     'ngTable'
+
 ]);
 
 joynRideApp.config(function($httpProvider) {

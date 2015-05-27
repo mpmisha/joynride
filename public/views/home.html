@@ -5,7 +5,7 @@
     <md-content>
         <section layout="row" layout-sm="column" layout-align="center center">
             <div ng-repeat="type in types" class="col-lg-3 col-md-6 col-sm-12 side-margin typeSelect"
-                 ng-click="selectTransport(type.name)">
+                 ng-click="selectTransport(type.name);clearForm()">
                 <h1 class="col-lg-12">{{type.h1}}</h1>
 
                 <h3 style="height: 60px;">{{type.h3}}</h3>
@@ -43,9 +43,17 @@
                                 <label>max price</label>
                                 <input type="number" min="0" ng-model="ride.maxPrice">
                             </md-input-container>
-                            <md-input-container class="text-left" ng-model="ride.maxPlaces" ng-if="options['driver']">
+                            <md-input-container class="text-left"  ng-if="options['driver']">
                                 <label>Places</label>
-                                <input type="number" min="0" max="10">
+                                <input type="number" min="1" max="10" ng-model="ride.maxPlaces">
+                            </md-input-container>
+                            <md-input-container class="text-left"  ng-if="options['driver']">
+                                <label>price</label>
+                                <input type="number" min="0" step="5" ng-model="ride.price">
+                            </md-input-container>
+                            <md-input-container class="text-left"  ng-if="options['driver']">
+                                <label>pickup radius</label>
+                                <input type="number" min="0" ng-model="ride.radius">
                             </md-input-container>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
@@ -58,7 +66,7 @@
                         </div>
                     </div>
                     <md-button class="md-raised col-lg-12 col-md-12 col-sm-12 top-margin"
-                               ng-click="sendRequest()">
+                               ng-click="options.passenger?sendRequest():submitRide()">
                         Submit request
                     </md-button>
                 </div>
@@ -68,15 +76,15 @@
             <section class="top-margin" layout="row" layout-sm="row" layout-align="center center">
                 <div class="col-md-7 col-sm-6 well" ng-if="travelInfoArr">
                     <table  class="table" style="text-align:center;">
-                        <th ng-click="sortTableBy('id')">driver id</th>
+                        <th ng-click="sortTableBy('id')">driver</th>
                         <th ng-click="sortTableBy('time')">time</th>
                         <th ng-click="sortTableBy('date')">date</th>
                         <th ng-click="sortTableBy('price')">price</th>
                         <th>Avg. driver rate (mouse-over)</th>
                         <th></th>
                         <tr ng-repeat="travel in travelInfoArr">
-                            <td data-title="'id'"><span popover-template='dynamicPopover.driverTemplate'
-                                                        ng-mouseover="dynamicPopover.travel=travel" popover-trigger="mouseenter">{{travel.driver.id}}</span>
+                            <td data-title="'name'"><span popover-template='dynamicPopover.driverTemplate'
+                                                        ng-mouseover="dynamicPopover.travel=travel" popover-trigger="mouseenter">{{travel.driver.f_name}} {{travel.driver.l_name}} {{(travel.driver.f_name==null && travel.driver.l_name==null)?'--':''}}</span>
                             </td>
                             <td data-title="'time'">{{travel.drive.time}}</td>
                             <td data-title="'date'">{{travel.drive.date}}</td>

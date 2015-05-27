@@ -37,7 +37,8 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
                     latitude: 32.085,
                     longitude: 34.781
                 }
-            }
+            },
+            passing:[]
         }
     }
 
@@ -71,6 +72,16 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
             }
         }
     }
+    $scope.clearForm = function(){
+        $scope.map.from = null;
+        $scope.map.to = null;
+        $scope.map.markers={from: {coordinates: {latitude: 31.804,longitude: 34.655}},to: {coordinates: {latitude: 32.085,longitude: 34.781}}};
+        $scope.ride.date=new Date();
+        $scope.ride.maxPrice=0;
+        $scope.hours=0;
+        $scope.minutes=0;
+        $scope.travelInfoArr=null;
+    }
 
     $scope.getMiddle = function (x, y) {
         return (x + y) / 2;
@@ -84,6 +95,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
             $scope.request = {
                 origin: new google.maps.LatLng($scope.map.from.geometry.location.lat(), $scope.map.from.geometry.location.lng()),
                 destination: new google.maps.LatLng($scope.map.to.geometry.location.lat(), $scope.map.to.geometry.location.lng()),
+
                 travelMode: google.maps.DirectionsTravelMode.DRIVING
             };
             initializeRoute();
@@ -97,7 +109,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         locationChanged('to');
     });
 
-    $scope.sendRequest = function () {
+    $scope.sendRequest = function () { //passenger presses submit button
         Request.get('/find_travels?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15'
             , function (data) {
                 getTravelsInfo(data);
@@ -106,6 +118,33 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
                 console.log('err - ', err);
             })
     };
+    function extractTime(time){
+        return time.getHours()+':'+time.getMinutes()+':00'
+    }
+    function extractDate(date){
+        return date.getFullYear() +'-'+(date.getMonth()+1)+'-'+date.getDate()
+    }
+    function getPath(){
+        var path=[],obj;
+        for(var marker in window.scope.map.markers.passing){
+            obj={
+                x:window.scope.map.markers.passing[marker].position.A,
+                y:window.scope.map.markers.passing[marker].position.F
+            }
+            path.push(obj);
+        }
+        return JSON.stringify(path);
+    }
+    $scope.submitRide = function(){ //driver presses submit button
+        Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src=Ashdod&srcx=31.804381&srcy=34.655314&dst=Tel-Aviv&dstx=32.0852999&dsty=34.7817676&time=15:25:00&date=2010-05-07&price=15&free_sits=4&radius=20&path=[{"x":31.804381,"y":34.655314},{"x":2,"y":8},{"x":67,"y":9}]'
+        //Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src='+$scope.map.from.name+'&srcx='+scope.map.from.geometry.location.A+'&srcy='+scope.map.from.geometry.location.F+'&dst='+window.scope.map.to.name+'&dstx='+window.scope.map.to.geometry.location.A+'&dsty='+window.scope.map.to.geometry.location.F+'&time='+extractTime(window.scope.ride.time)+'&date='+extractDate(window.scope.ride.date)+'&price='+window.scope.ride.price+'&free_sits='+window.scope.ride.maxPlaces+'&radius='+window.scope.ride.radius+'&path='+getPath()
+            , function (data) {
+                console.log('response - ',data)
+            }
+            , function (err) {
+                console.log('err - ', err);
+            })
+    }
 
     function getTravelsInfo(travelArr) {
         $scope.travelInfoArr = [];
@@ -214,7 +253,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         }
 
     }
-
+    var map;
     function initializeRoute() {
         var directionsDisplay = new google.maps.DirectionsRenderer();
         var mapOptions =
@@ -223,16 +262,42 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
             center: $scope.request.origin,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
-        var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
+         map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
+        $scope.gMap = map;
         directionsDisplay.setMap(map);
         //calc router
         var directionsService = new google.maps.DirectionsService();
         directionsService.route($scope.request, function (response, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(response);
+                showSteps(response);
             }
         });
-
     };
+    function showSteps(directionResult) {
+        // For each step, place a marker, and add the text to the marker's
+        // info window. Also attach the marker to an array so we
+        // can keep track of it and remove it when calculating new
+        // routes.
+        var myRoute = directionResult.routes[0].legs[0];
+        $scope.map.markers.passing=[];
+        for (var i = 0; i < myRoute.steps.length; i++) {
+            var marker = new google.maps.Marker({
+                position: myRoute.steps[i].start_location,
+                map: map
+            });
+            attachInstructionText(marker, myRoute.steps[i].instructions);
+            $scope.map.markers.passing[i] = marker;
+        }
+    };
+    function attachInstructionText(marker, text) {
+        google.maps.event.addListener(marker, 'click', function() {
+            // Open an info window when the marker is clicked on,
+            // containing the text of the step.
+            stepDisplay.setContent(text);
+            stepDisplay.open(map, marker);
+        });
+    }
+
 })
 ;
