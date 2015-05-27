@@ -136,8 +136,8 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         return JSON.stringify(path);
     }
     $scope.submitRide = function(){ //driver presses submit button
-        Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src=Ashdod&srcx=31.804381&srcy=34.655314&dst=Tel-Aviv&dstx=32.0852999&dsty=34.7817676&time=15:25:00&date=2010-05-07&price=15&free_sits=4&radius=20&path=[{"x":31.804381,"y":34.655314},{"x":2,"y":8},{"x":67,"y":9}]'
-        //Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src='+$scope.map.from.name+'&srcx='+scope.map.from.geometry.location.A+'&srcy='+scope.map.from.geometry.location.F+'&dst='+window.scope.map.to.name+'&dstx='+window.scope.map.to.geometry.location.A+'&dsty='+window.scope.map.to.geometry.location.F+'&time='+extractTime(window.scope.ride.time)+'&date='+extractDate(window.scope.ride.date)+'&price='+window.scope.ride.price+'&free_sits='+window.scope.ride.maxPlaces+'&radius='+window.scope.ride.radius+'&path='+getPath()
+        //Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src=Ashdod&srcx=31.804381&srcy=34.655314&dst=Tel-Aviv&dstx=32.0852999&dsty=34.7817676&time=15:25:00&date=2010-05-07&price=15&free_sits=4&radius=20&path=[{"x":31.804381,"y":34.655314},{"x":2,"y":8},{"x":67,"y":9}]'
+        Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src='+$scope.map.from.name+'&srcx='+scope.map.from.geometry.location.A+'&srcy='+scope.map.from.geometry.location.F+'&dst='+window.scope.map.to.name+'&dstx='+window.scope.map.to.geometry.location.A+'&dsty='+window.scope.map.to.geometry.location.F+'&time='+extractTime(window.scope.ride.time)+'&date='+extractDate(window.scope.ride.date)+'&price='+window.scope.ride.price+'&free_sits='+window.scope.ride.maxPlaces+'&radius='+window.scope.ride.radius+'&path='+getPath()
             , function (data) {
                 console.log('response - ',data)
             }
