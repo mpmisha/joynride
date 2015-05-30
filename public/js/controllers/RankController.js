@@ -7,11 +7,14 @@ angular.module('joynRideApp').controller('RankController', function ($scope) {
         maxRating: 5,
         isReadonlyRank: false,
         questions: [{
-            text: 'How do you feel?'
+            text: 'How do you feel?',
+            model:'feel'
         }, {
-            text: 'How was the ride?'
+            text: 'How was the ride?',
+            model:'ride'
         }, {
-            text: 'please rank the atmosphere:'
+            text: 'please rank the atmosphere:',
+            model:'atmosphere'
         }]
     };
 

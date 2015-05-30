@@ -17,7 +17,7 @@
                 <div layout="row" layout-wrap class="ratingContainer">
                     <div flex="33"></div>
                     <div layout="row" layout-align="center center" flex="33">
-                        <rating ng-model="ride.rate" max="rankConfig.maxRating" readonly="rankConfig.isReadonly"
+                        <rating ng-model="ride[q.model].rate" max="rankConfig.maxRating" readonly="rankConfig.isReadonly"
                                 state-on="star_full" state-off="star_empty" on-hover="hoveringOver(value)"
                                 on-leave="overStar = null" flex></rating>
                     </div>

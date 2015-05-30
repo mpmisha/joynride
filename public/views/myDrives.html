@@ -1,8 +1,38 @@
 <div class="text-center">
     <h1>My Drives</h1>
+    <section class="top-margin" layout="row" layout-sm="row" layout-align="center center"
+             ng-repeat="(key,value) in travelWithInfo">
+        <div class="col-md-7 col-sm-6 well" ng-if="!isEmpty(value)">
+            <h3>{{tagToName(key)}}</h3>
+            <section class="top-margin" layout="row" layout-sm="row" layout-align="center center"
+                     ng-repeat="(subKey,subValue) in value">
+                <div class="col-md-7 col-sm-6 well">
+                    <table>
+                        <tr>
+                            <td>source :</td>
+                            <td>&nbsp{{subValue.source}}</td>
+                        </tr>
+                        <tr>
+                            <td>destination :</td>
+                            <td>&nbsp{{subValue.dest}}</td>
+                        </tr>
+                        <tr>
+                            <td>time :</td>
+                            <td>&nbsp{{subValue.date}} , {{subValue.time}}</td>
+                        </tr>
+                        <tr>
+                            <td>price :</td>
+                            <td>&nbsp{{subValue.price}}</td>
+                        </tr>
+                        <tr>
+                            <td>driver :</td>
+                            <td>&nbsp{{subValue.driver.f_name}} {{subValue.driver.l_name}}(id:{{subValue.driver.id}})</td>
+                        </tr>
 
-
-    <md-content>
-    </md-content>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </section>
 </div>
 

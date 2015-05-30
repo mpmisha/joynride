@@ -9,7 +9,8 @@
 	#status can be: 0 (driver hasn't been informed), 
 	#				1 (driver has been informed and approved, and the traveller has not been informed), 
 	#				2 (driver has been informed and rejected, and the traveller has not been informed),
-	#				or 3 (driver bas been informed and rejected, and the traveller has been informed - don't erase the row in this case)
+	#				3 (driver bas been informed and rejected, and the traveller has been informed - don't erase the row in this case)
+	#				4 (driver has been informed)
 	##########################################################################################
 
 	$tran_id = $_GET['tran_id'];

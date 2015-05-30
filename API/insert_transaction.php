@@ -9,10 +9,11 @@
 
 	
 	$driver_id = $_GET['user_id'];
-	$query = mysql_query("SELECT COUNT(*) FROM transaction_info");
+	$query = mysql_query("SELECT MAX(transaction_id) FROM transaction_info");
 	$array = mysql_fetch_array($query);
 	$transaction_id = $array[0] + 1; 
-		
+
+	echo $array[0];
 	$source_addr = $_GET['src'];
 	$source_x = $_GET['srcx'];
 	$source_y = $_GET['srcy'];

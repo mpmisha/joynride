@@ -1,5 +1,5 @@
-<form class="form-signin" name="loginForm">
-    <h2 class="form-signin-heading">Please sign in</h2>
+<form class="form-signin" name="loginForm" ng-submit="updateInfo()">
+    <h2 class="form-signin-heading">User Info Update</h2>
 
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6">
@@ -39,23 +39,36 @@
                ng-model="user.phone">
     </div>
 
+    <h2 class="form-signin-heading">Password Update</h2>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <label for="originalPassword" class="sr-only">Original Password</label>
+                <input type="password" id="originalPassword" class="form-control" placeholder="Original Password"
+                       autofocus
+                       ng-model="pass.originalPassword">
+            </div>
+        </div>
+        </div>
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6">
             <div class="form-group">
                 <label for="password" class="sr-only">Password</label>
-                <input type="password" id="password" class="form-control" placeholder="Password"
-                       required autofocus
-                       ng-model="user.password">
+                <input type="password" id="password" class="form-control" placeholder="New Password"
+                       autofocus
+                       ng-model="pass.password">
             </div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6">
             <div class="form-group" ng-class="{'has-success':passwordConfirmed()}">
                 <label for="repeatPassword" class="sr-only">Repeat password</label>
                 <input type="password" id="repeatPassword" class="form-control"
-                       placeholder="Repeat Password"
-                       required autofocus ng-model="user.passwordRepeat">
+                       placeholder="Repeat New Password"
+                       autofocus ng-model="pass.passwordRepeat">
             </div>
         </div>
     </div>
-    <input type="submit" value="Register" class="btn btn-info btn-block">
+
+    <input type="submit" id="submit" value="update" class="btn btn-info btn-block">
 </form>

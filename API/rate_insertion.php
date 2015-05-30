@@ -1,12 +1,11 @@
 <?php
-
-    include('db_conf.php');
+    $con = mysql_connect("localhost", "root", "dani1994");
+    mysql_select_db("joynride");
 	
 	##########################################################################################
-	#Usage: ?pass_id=1&driver_id=1&punc_rate=2&safety_rate=3&atmo_rate=3&gen_rate=5
+	#Usage: ?tran_id=1&pass_id=1&driver_id=1&punc_rate=2&safety_rate=3&atmo_rate=3&gen_rate=5
 	##########################################################################################
 
-	
 	$pass_id = $_GET['pass_id'];
 	$driver_id = $_GET['driver_id'];
 	$punc = $_GET['punc_rate'];
@@ -32,26 +31,11 @@
 		$insertion = mysql_query("UPDATE rates SET punctuality = $punc, safety = $safety, atmosphere = $atmo, general_rank = $gen, total_number_of_ranking = $total WHERE driver_id = $driver_id AND passenger_id = $pass_id");
 	}
 
+	##Updating 'has_rated' to 1
+	$tran_id = $_GET['tran_id'];
+	mysql_query("UPDATE passengers SET has_rated = b'1' WHERE tran_id = $tran_id AND pass_id = $pass_id");
+
 	if (!$insertion) {
-	
-		$returned_arr = array('error' => 'Server is down');
-		$reply = json_encode($returned_arr);
-		
-			if(array_key_exists('callback', $_GET)){
-
-				header('Content-Type: text/javascript; charset=utf8');
-				header('Access-Control-Allow-Origin: http://localhost:8080/');
-				header('Access-Control-Max-Age: 3628800');
-				header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
-				$callback = $_GET['callback'];
-				echo $callback.'('.$reply.');';
-
-			}else{
-				// normal JSON string
-				header('Content-Type: application/json; charset=utf8');
-
-				echo $reply;
-			}
-	}
+		echo json_encode("Server is down");
+	}	
 ?>

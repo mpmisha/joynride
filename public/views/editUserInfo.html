@@ -1,6 +1,6 @@
 <md-content class="md-padding">
     <md-tabs md-dynamic-height="" md-border-bottom="">
-        <md-tab label="Personal Info">
+        <md-tab label="Personal Info"  md-dynamic-height md-border-bottom>
             <md-content class="md-padding">
                 <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="container col-lg-4 col-md-6 col-sm-10"
@@ -10,7 +10,7 @@
                 <div class="right-margin col-lg-4 col-md-3 col-sm-1"></div>
             </md-content>
         </md-tab>
-        <md-tab label="My Rating">
+        <md-tab label="My Rating"  md-dynamic-height md-border-bottom>
             <md-content class="md-padding">
                 <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="container col-lg-4 col-md-6 col-sm-10"
@@ -20,16 +20,17 @@
                 <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
             </md-content>
         </md-tab>
-        <md-tab label="Drives">
-            <md-content class="md-padding">
-                <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
-                <div class="container col-lg-4 col-md-6 col-sm-10">
-                    <h1>this will be a tab with all sort of drive info</h1>
+        <md-tab label="Drives"  md-dynamic-height md-border-bottom>
+            <md-content class="md-padding" style="height: 100%;;">
+                <div class="left-margin col-lg-12 col-md-3 col-sm-1"></div>
+                <div class="container col-lg-12 col-md-6 col-sm-10"
+                    ng-include="'../views/myDrives.html'"
+                    ng-controller="MyDrivesController">
                 </div>
                 <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
             </md-content>
         </md-tab>
-        <md-tab label="Updates">
+        <md-tab label="Updates"  md-dynamic-height md-border-bottom>
             <md-content class="md-padding">
                 <div class="left-margin col-lg-4 col-md-3 col-sm-1"></div>
                 <div class="container col-lg-4 col-md-6 col-sm-10">

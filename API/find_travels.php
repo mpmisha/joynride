@@ -46,8 +46,23 @@ for ($i = 0; $i < $length ; $i++) {
 	}
 }
 
-$json = json_encode($final_set);
-echo $json;
+$reply = json_encode($final_set);
+			if(array_key_exists('callback', $_GET)){
+
+				header('Content-Type: text/javascript; charset=utf8');
+				header('Access-Control-Allow-Origin: http://localhost:8080/');
+				header('Access-Control-Max-Age: 3628800');
+				header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+
+				$callback = $_GET['callback'];
+				echo $callback.'('.$reply.');';
+
+			}else{
+				// normal JSON string
+				header('Content-Type: application/json; charset=utf8');
+
+				echo $reply;
+			}
 
 #'[{"x":31.804381, "y":34.655314}, {"x":2,"y":8}, {"x":67,"y":9}]'
 

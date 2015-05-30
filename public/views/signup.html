@@ -19,15 +19,19 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
-            <label for="uniEmail" class="sr-only">University Email address</label>
-            <input type="email" id="uniEmail" class="form-control" placeholder="Email address" required autofocus
-                   ng-model="user.uni_mail">
+            <label for="userName" class="sr-only">user Name</label>
+            <input type="text" id="userName" class="form-control" placeholder="userName" required autofocus
+                   ng-model="user.user_name">
         </div>
+        <!--<div class="form-group">-->
+            <!--<label for="uniEmail" class="sr-only">University Email address</label>-->
+            <!--<input type="email" id="uniEmail" class="form-control" placeholder="Email address" required autofocus-->
+                   <!--ng-model="user.uni_mail">-->
+        <!--</div>-->
         <div class="form-group">
             <label for="altEmail" class="sr-only">Alternative Email address</label>
-            <input type="email" id="altEmail" class="form-control" placeholder="Email address" required autofocus
+            <input type="email" id="altEmail" class="form-control" placeholder="Alternative Email address" required autofocus
                    ng-model="user.alt_mail">
         </div>
         <div class="form-group">
@@ -53,7 +57,7 @@
             </div>
         </div>
 
-        <input type="submit" value="Register" class="btn btn-info btn-block">
+        <input type="submit" value="Register" class="btn btn-info btn-block" ng-click="signUp()">
 
     </form>
 
