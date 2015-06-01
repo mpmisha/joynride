@@ -1,11 +1,11 @@
-<div class="text-center">
+<div class="text-center" style="margin-top:100px;">
     <h1>rank</h1>
     <section class="top-margin" layout="row" layout-margin layout-padding layout-wrap
              layout-align="space-around center">
-        <div ng-repeat="ride in ridesToRank " flex-gt-md="30" flex="66" class="well" layout="column">
+        <div ng-repeat="ride in ridesToRank|orderBy:['date','time','id'] " flex-gt-md="30" flex="66" class="well" layout="column">
             <div class="col-lg-12" flex>
                 <h2>
-                    ranking id - {{ride.id}}
+                    ranking id - {{ride.id}} <span ng-mouseover="dynamicPopover.ride=ride" popover-template='dynamicPopover.driverTemplate' popover-trigger="mouseenter" class="glyphicon glyphicon-question-sign" style="font-size:15px"></span>
                 </h2>
                 Please fill the following:<br/>
             </div>
@@ -13,7 +13,6 @@
                 <h3 class="question">
                     {{q.text}}
                 </h3>
-
                 <div layout="row" layout-wrap class="ratingContainer">
                     <div flex="33"></div>
                     <div layout="row" layout-align="center center" flex="33">
@@ -24,7 +23,27 @@
                     <div flex="33"></div>
                 </div>
             </div>
-            <md-button class="md-raised">Submit</md-button>
+            <md-button ng-click="submit(ride)" class="md-raised">Submit</md-button>
         </div>
     </section>
 </div>
+
+<script type="text/ng-template" id="driverTemplate.html">
+    <div class="text-center bottom-margin"><b>{{dynamicPopover.ride.info.source}}</b> <span class="glyphicon glyphicon-arrow-right"></span> <b>{{dynamicPopover.ride.info.dest}}</b></div>
+    <div class="form-group">
+        <ul class="list-group">
+            <li class="list-group-item">
+                date : {{dynamicPopover.ride.date}} ,{{dynamicPopover.ride.time}}
+            </li>
+            <li class="list-group-item">
+                driver : {{dynamicPopover.ride.driverInfo.f_name}} {{dynamicPopover.ride.driverInfo.l_name}}
+            </li>
+            <li class="list-group-item">
+                price : {{dynamicPopover.ride.info.price}}
+            </li>
+            <li class="list-group-item">
+                # of passengers : {{dynamicPopover.ride.info.passengers.length}}
+            </li>
+        </ul>
+    </div>
+</script>

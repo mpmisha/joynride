@@ -2,7 +2,6 @@
  * Created by Michael on 4/22/2015.
  */
 angular.module('joynRideApp').controller('MainController', function ($scope, $window, Request, ngTableParams,NotifyService) {
-    window.scope = $scope
     $scope.displayMap = false;
     $scope.directionsService = new google.maps.DirectionsService();
     $scope.options = {
@@ -110,7 +109,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
     });
 
     $scope.sendRequest = function () { //passenger presses submit button
-        Request.get('/find_travels?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15?user_id='+JSON.parse(localStorage.user).user_id
+        Request.get('/find_travels?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15&user_id='+JSON.parse(localStorage.user).user_id
             , function (data) {
                 getTravelsInfo(data);
             }
@@ -194,7 +193,12 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
 
         Request.get('/declare_request?tran_id=' + travel.drive.id + '&pass_id=' + JSON.parse(localStorage.user).user_id + '&src=' + travel.drive.source + '&src_pass_x=' + $scope.map.markers.from.coordinates.latitude + '&src_pass_y=' + $scope.map.markers.from.coordinates.longitude + '&dst=' + travel.drive.dest + '&dst_pass_x=' + $scope.map.markers.to.coordinates.latitude + '&dst_pass_y=' + $scope.map.markers.to.coordinates.longitude + '&status=0',
             function (data) {
-                console.log('data  -', data)
+                if(!data.error){
+                    console.log('data  -', data)
+                    window.alert('ok!');
+                }else{
+                 console.error(data);
+                }
             },
             function (err) {
                 console.log("err - ", err);

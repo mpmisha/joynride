@@ -15,6 +15,10 @@
 
 	#Checking if the current passenger has rated the current driver before
 	$query = mysql_query("SELECT total_number_of_ranking, punctuality, safety, atmosphere, general_rank FROM rates WHERE driver_id = $driver_id AND passenger_id = $pass_id");
+	if (!$query) {
+		return json_encode(array('error' => 'server is down'));
+		return;
+	}
 	#This passenger hasn't rated this driver before
 	if (mysql_num_rows($query) == 0) {
 		$total = 1;
@@ -30,12 +34,15 @@
 		$total = $array['total_number_of_ranking'] + 1;
 		$insertion = mysql_query("UPDATE rates SET punctuality = $punc, safety = $safety, atmosphere = $atmo, general_rank = $gen, total_number_of_ranking = $total WHERE driver_id = $driver_id AND passenger_id = $pass_id");
 	}
-
-	##Updating 'has_rated' to 1
-	$tran_id = $_GET['tran_id'];
-	mysql_query("UPDATE passengers SET has_rated = b'1' WHERE tran_id = $tran_id AND pass_id = $pass_id");
-
 	if (!$insertion) {
-		echo json_encode("Server is down");
-	}	
+		return json_encode(array('error' => 'server is down'));
+	}
+
+	#Updating 'has_rated' to 1
+	$tran_id = $_GET['tran_id'];
+	$update = mysql_query("UPDATE passengers SET has_rated = b'1' WHERE tran_id = $tran_id AND pass_id = $pass_id");
+	if (!$update)
+		return json_encode(array('error' => 'server is down'));
+	else
+		return json_encode(array('status' => 'ok'));
 ?>

@@ -17,10 +17,37 @@
 	$alternative_email_address = $_GET['alt_email_add'];
 	$picture_path = $_GET['picture'];
 	
-	$insertion = mysql_query("INSERT INTO personal_info VALUES($user_id, '$first_name', '$last_name', '$uni_email_address', '$alternative_email_address', '$phone_number', '$picture_path')");
+	$returned_arr = array('status' => 'ok');
+	
+	$find_user = mysql_query("SELECT * FROM personal_info WHERE user_id = $user_id;");
+	
+	if ($find_user){
+		
+		if (mysql_num_rows($find_user) > 0){// user_id already exists in DB
+		
+			$insertion = mysql_query("UPDATE personal_info SET  first_name = '$first_name', 
+																last_name = '$last_name', 
+																uni_email_address = '$uni_email_address', 
+																alternative_email_address = '$alternative_email_address', 
+																phone_number = '$phone_number', 
+																picture_path = '$picture_path' 
+									WHERE user_id = $user_id");
+		}
+		else{
+		
+			$insertion = mysql_query("INSERT INTO personal_info VALUES($user_id, '$first_name', '$last_name', '$uni_email_address', '$alternative_email_address', '$phone_number', '$picture_path')");
+		}
+	}
+	else{// query failure
+	
+		$insertion = false;
+	}
 
 	if (!$insertion) {
-		$returned_arr = array('error' => 'Server is down');
+	
+		$returned_arr = array('error' => 'Server is down');	
+	}
+	
 		$reply = json_encode($returned_arr);
 		
 		if(array_key_exists('callback', $_GET)){
@@ -39,6 +66,5 @@
 
 				echo $reply;
 			}
-	}
 			
 ?>

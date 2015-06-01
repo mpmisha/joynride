@@ -10,22 +10,29 @@
 	$password = $_GET['password'];
 		
 	$query = mysql_query("SELECT user_id, password FROM authentication WHERE user_name = '$userName'");
-	$array = mysql_fetch_array($query);
-	$length = mysql_num_rows($query);
-	if ($length == 0) {
-		$returned_arr = array('error'=>'No such user name');
+	if (!$query){
+	
+		$returned_arr = array('status' => 'ok');
 	}
-	else {
-		$my_pass = $array[1];
-		if (strcmp($my_pass , $password) == 0) {
-			$returned_arr = array("user_id" => (int)$array[0]);
+	else{
+		$array = mysql_fetch_array($query);
+		$length = mysql_num_rows($query);
+		if ($length == 0) {
+			$returned_arr = array('error'=>'No such user name');
 		}
 		else {
-			$returned_arr = array('error' => 'Wrong password');
+			$my_pass = $array[1];
+			if (strcmp($my_pass , $password) == 0) {
+				$returned_arr = array("user_id" => (int)$array[0]);
+			}
+			else {
+				$returned_arr = array('error' => 'Wrong password');
+			}
 		}
 	}
-	$reply = json_encode($returned_arr);
-	
+			
+			$reply = json_encode($returned_arr);
+			
 			if(array_key_exists('callback', $_GET)){
 
 				header('Content-Type: text/javascript; charset=utf8');

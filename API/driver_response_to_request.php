@@ -12,12 +12,41 @@
 	$tran_id = $_GET['tran_id'];
 	$pass_id = $_GET['pass_id'];
 	$reply = $_GET['reply'];
+	
+	$returned_arr = array('status' => 'ok');
 
-	$query = mysql_query("UPDATE requests SET req_status = $reply WHERE tran_id = $tran_id AND hiker_id = $pass_id;");
- 
-	if(!$query){
-		$returned_arr = array('error' => 'Server is down');
-		$reply = json_encode($returned_arr);
+
+	
+
+	
+	
+		if($reply == 1){
+		
+			$query = mysql_query("UPDATE transaction_info SET num_of_occupied_sits = num_of_occupied_sits + 1 WHERE transaction_id = $tran_id;");
+				if(!$query){
+				
+					$returned_arr = array('error' => 'unable to join transaction');
+				}
+				else{
+				
+						$query = mysql_query("UPDATE requests SET req_status = $reply WHERE tran_id = $tran_id AND hiker_id = $pass_id;");
+						if(!$query){
+						
+							$returned_arr = array('error' => 'unable to update traveller');
+						}
+				}
+		}
+		else{
+		
+			$query = mysql_query("UPDATE requests SET req_status = $reply WHERE tran_id = $tran_id AND hiker_id = $pass_id;");
+			if(!$query){
+						
+				$returned_arr = array('error' => 'unable to update traveller');
+			}
+		}
+		
+	
+			$reply = json_encode($returned_arr);
 		
 			if(array_key_exists('callback', $_GET)){
 
@@ -35,6 +64,4 @@
 
 				echo $reply;
 			}
-	}
-
 ?>

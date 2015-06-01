@@ -24,7 +24,15 @@
 .bottom-margin{
     margin-bottom: 20px;
 }
-
+.text-red{
+    color:red;
+}
+.text-green{
+    color:forestgreen;
+}
+.text-blue{
+    color:dodgerblue;
+}
 .angular-google-map-container,#googleMap{
     height: 400px;
     display: block;
@@ -74,3 +82,18 @@
     color:transparent;
     background-image: url('../img/star_half.png');
 }
+.well.myDriveItem{
+    padding-top:0; padding-bottom: 0;
+}
+.well.myDriveItem div.title{
+    padding-top:10px;
+    padding-bottom: 10px;
+}
+
+.well.myDriveItem div.body{
+    border: none;
+    margin-top:0;
+    padding-top:10px;
+
+}
+

@@ -9,30 +9,42 @@
 
 	
 	$driver_id = $_GET['user_id'];
-	$query = mysql_query("SELECT MAX(transaction_id) FROM transaction_info");
-	$array = mysql_fetch_array($query);
-	$transaction_id = $array[0] + 1; 
-
-	echo $array[0];
-	$source_addr = $_GET['src'];
-	$source_x = $_GET['srcx'];
-	$source_y = $_GET['srcy'];
-	$dest_addr = $_GET['dst'];
-	$dest_x = $_GET['dstx'];
-	$dest_y = $_GET['dsty'];
-	$departure_time ="TIME " . "'" . $_GET['time'] . "'";
-	$departure_date = "DATE " . "'" . $_GET['date'] . "'";
-	$price_per_person = $_GET['price'];
-	$num_of_vacant_sits = $_GET['free_sits'];
-	$num_of_occupied_sits = 0;
-	$km_from_src = $_GET['radius'];
-	$the_path = $_GET['path'];
-
-	$query = mysql_query("INSERT INTO transaction_info VALUES($transaction_id, $driver_id, '$source_addr', $source_x, $source_y, '$dest_addr', $dest_x, $dest_y, $departure_time, $departure_date, $price_per_person, $num_of_vacant_sits, $num_of_occupied_sits, $km_from_src, '$the_path');");
 	
-	if(!$query){
-		$returned_arr = array('error' => 'Server is down');
-		$reply = json_encode($returned_arr);
+	$returned_arr = array('status' => 'ok');
+	
+	$query = mysql_query("SELECT MAX(transaction_id) FROM transaction_info");
+	if (!$query){
+	
+			$returned_arr = array('error' => 'Server is down');
+	}
+	else {
+	
+			$array = mysql_fetch_array($query);
+			$transaction_id = $array[0] + 1; 
+
+			$source_addr = $_GET['src'];
+			$source_x = $_GET['srcx'];
+			$source_y = $_GET['srcy'];
+			$dest_addr = $_GET['dst'];
+			$dest_x = $_GET['dstx'];
+			$dest_y = $_GET['dsty'];
+			$departure_time ="TIME " . "'" . $_GET['time'] . "'";
+			$departure_date = "DATE " . "'" . $_GET['date'] . "'";
+			$price_per_person = $_GET['price'];
+			$num_of_vacant_sits = $_GET['free_sits'];
+			$num_of_occupied_sits = 0;
+			$km_from_src = $_GET['radius'];
+			$the_path = $_GET['path'];
+
+			$query = mysql_query("INSERT INTO transaction_info VALUES($transaction_id, $driver_id, '$source_addr', $source_x, $source_y, '$dest_addr', $dest_x, $dest_y, $departure_time, $departure_date, $price_per_person, $num_of_vacant_sits, $num_of_occupied_sits, $km_from_src, '$the_path');");
+			
+			if(!$query){
+			
+				$returned_arr = array('error' => 'Server is down');
+			}
+	}
+	
+			$reply = json_encode($returned_arr);
 		
 			if(array_key_exists('callback', $_GET)){
 
@@ -50,5 +62,4 @@
 
 				echo $reply;
 			}
-	}
 ?>

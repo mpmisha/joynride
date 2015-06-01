@@ -2,10 +2,11 @@
 
 include('db_conf.php');
 include('lib_functions.php');
+include('declare_request.php');
 
 ##############################################################################
 
-#USAGE example: ?id=4&tran_id=2
+#USAGE example: ?id=4&tran_id=2&src=Ashdod&src_pass_x=31.804381&src_pass_y=34.655314&dst=Tel-Aviv&dst_pass_x=32.0852999&dst_pass_y=34.7817676
 
 #PLAN:
 
@@ -31,12 +32,40 @@ $tran_id = $_GET['tran_id']; #the transaction's id (user id)
 #extract the driver's id
 function get_driver_id($tran_id){
 	$query = mysql_query("SELECT driver_id FROM `transaction_info`  WHERE (transaction_id='$tran_id')");
+	
+	if (!$query){
+	
+		return false;
+	}
+	
 	$row = mysql_fetch_array($query);
 	return (int)$row[0];
 }
 
+	$src = $_GET['src'];
+	$src_pass_x = $_GET['src_pass_x'];
+	$src_pass_y = $_GET['src_pass_y'];
+	$dst = $_GET['dst'];
+	$dst_pass_x = $_GET['dst_pass_x'];
+	$dst_pass_y = $_GET['dst_pass_y'];
+
+#insert request
+$q_insert = insert_request($tran_id, $id, $src, $src_pass_x, $src_pass_y, $dst, $dst_pass_x, $dst_pass_y, 0);
+
 #inform the driver - retrieve the info about the traveller 
-$reply = json_encode(array_merge(array('driver_id' => get_driver_id($tran_id)), get_traveller_info($id)));
+$driver_id = get_driver_id($tran_id);
+$trav_info = get_traveller_info($id);
+
+if ($driver_id == false || $trav_info == false || !$q_insert){
+	echo !$q_insert;
+	$returned_arr = array('error' => 'server is down');
+}
+else{
+
+	$returned_arr = array_merge(array('driver_id' => $driver_id), $trav_info);
+}
+
+			$reply = json_encode($returned_arr);
 
 			if(array_key_exists('callback', $_GET)){
 

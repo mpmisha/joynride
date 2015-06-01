@@ -7,8 +7,14 @@
 	##########################################################################################
 
 	$driver_id = $_GET['driver_id'];
+	
+	$returned_arr = array('error' => 'server is down');
+	
 	$query = mysql_query("SELECT punctuality, safety, atmosphere, general_rank FROM rates WHERE driver_id = $driver_id");
-	$total = mysql_num_rows($query);
+	
+	if ($query){
+		
+		$total = mysql_num_rows($query);
 	
 		$punc = 0;
 		$safety = 0;
@@ -30,7 +36,10 @@
 
 		}
 
-	$returned_arr = array('punctuality' => $punc, 'safety' => $safety, 'atmosphere' => $atmo, 'general_rank' => $general);
+		$returned_arr = array('punctuality' => $punc, 'safety' => $safety, 'atmosphere' => $atmo, 'general_rank' => $general);
+	}
+	
+	
 	$reply = json_encode($returned_arr);
 	
 			if (array_key_exists('callback', $_GET)) {

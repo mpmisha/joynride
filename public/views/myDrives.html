@@ -1,38 +1,76 @@
-<div class="text-center">
-    <h1>My Drives</h1>
-    <section class="top-margin" layout="row" layout-sm="row" layout-align="center center"
-             ng-repeat="(key,value) in travelWithInfo">
-        <div class="col-md-7 col-sm-6 well" ng-if="!isEmpty(value)">
-            <h3>{{tagToName(key)}}</h3>
-            <section class="top-margin" layout="row" layout-sm="row" layout-align="center center"
-                     ng-repeat="(subKey,subValue) in value">
-                <div class="col-md-7 col-sm-6 well">
-                    <table>
-                        <tr>
-                            <td>source :</td>
-                            <td>&nbsp{{subValue.source}}</td>
-                        </tr>
-                        <tr>
-                            <td>destination :</td>
-                            <td>&nbsp{{subValue.dest}}</td>
-                        </tr>
-                        <tr>
-                            <td>time :</td>
-                            <td>&nbsp{{subValue.date}} , {{subValue.time}}</td>
-                        </tr>
-                        <tr>
-                            <td>price :</td>
-                            <td>&nbsp{{subValue.price}}</td>
-                        </tr>
-                        <tr>
-                            <td>driver :</td>
-                            <td>&nbsp{{subValue.driver.f_name}} {{subValue.driver.l_name}}(id:{{subValue.driver.id}})</td>
-                        </tr>
-
-                    </table>
-                </div>
-            </section>
+<div class="text-center" ng-show="!isEmpty(travellerDrives)">
+    <h1>My Drives as a hitchhiker</h1>
+    <section class="top-margin" layout="column" layout-sm="column" layout-align="center center">
+        <div ng-repeat="(key,value) in travellerDrives" class="well col-lg-6 col-md-6 myDriveItem" >
+            <div layout="row" layout-align="center left" class="title" ng-click="value.showInfo=!value.showInfo;getDriverInfo(value.driver_id,value)">
+                <span class="side-margin"><b>{{key}}</b> : </span>
+                <span class="side-margin"><b>{{value.date}}</b> : </span>
+                <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
+                <span class="side-margin">Status : <b ng-class="value.status=='denied'?'text-red':(value.status=='approved'?'text-green':'text-blue')">{{value.status}}</b></span>
+            </div>
+            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin  body">
+                <ul style="text-align: left">
+                    <li>
+                        <span class="">time : <b>{{value.time}}</b></span>hjk
+                    </li>
+                    <li>
+                        <span class="">price :  <b>{{value.price}}</b> </span>
+                    </li>
+                    <li>
+                        <span class=""> driver : {{value.driver.l_name}}&nbsp{{value.driver.f_name}}</span>
+                    </li>
+                    <li>
+                        <span class=""> # of passengers  : {{value.passengers.length}}</span>
+                    </li>
+                </ul>
+            </div>
         </div>
     </section>
 </div>
+
+<div class="text-center" ng-show="!isEmpty(driverDrives)">
+    <h1>My Drives as a Driver</h1>
+    <section class="top-margin" layout="column" layout-sm="column" layout-align="center center">
+        <div ng-repeat="(key,value) in driverDrives" class="well col-lg-6 col-md-6 myDriveItem">
+            <div layout="row" layout-align="center left" class="title" ng-click="value.showInfo=!value.showInfo;getPassengers(value.passengers)">
+                <span class="side-margin"><b>{{key}}</b> : </span>
+                <span class="side-margin"><b>{{value.date}}</b> : </span>
+                <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
+                <span class="side-margin"><b> # of passengers : {{value.passengers.length}}</b></span>
+            </div>
+            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin body">
+                <ul style="text-align: left">
+                    <li>
+                        <span class="">time : <b>{{value.time}}</b></span>
+                    </li>
+                    <li>
+                        <span class="">profit :  <b>{{value.price * value.passengers.length}}</b> </span>
+                    </li>
+                    <li>
+                        <span class="">passengers  :</span>
+                        <ul>
+                            <li ng-repeat="passenger in value.passengers">
+                                <ul>
+                                    <li>
+                                        {{passenger.info.f_name}} {{passenger.info.l_name}}
+                                    </li>
+                                    <li>
+                                        {{passenger.info.uni_mail}}
+                                    </li>
+                                    <li>
+                                        {{passenger.info.phone}}
+                                    </li>
+                                    <li>
+                                        status : <b ng-class="passenger.status =='denied'?'text-red':(passenger.status=='approved'?'text-green':'text-blue')">{{passenger.status}}</b>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
 

@@ -3,4 +3,5 @@
  */
 {
     baseURL:'http://80.178.198.187:8080/joynride/'
+    //baseURL:'localhost:8080/joynride/'
 }

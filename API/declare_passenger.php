@@ -9,37 +9,24 @@
 	#sets 'has_rated' to 0 
 	##########################################################################################
 
-	$tran_id = $_GET['tran_id'];
+/* 	$tran_id = $_GET['tran_id'];
 	$pass_id = $_GET['pass_id'];
 	$src = $_GET['src'];
 	$src_pass_x = $_GET['src_pass_x'];
 	$src_pass_y = $_GET['src_pass_y'];
 	$dst = $_GET['dst'];
 	$dst_pass_x = $_GET['dst_pass_x'];
-	$dst_pass_y = $_GET['dst_pass_y'];
-
- $query = mysql_query("INSERT INTO passengers VALUES ($tran_id, $pass_id, '$src', $src_pass_x, $src_pass_y, '$dst', $dst_pass_x, $dst_pass_y, 0);");
- 
-	if(!$query){
-		$returned_arr = array('error' => 'Server is down');
-		$reply = json_encode($returned_arr);
+	$dst_pass_y = $_GET['dst_pass_y']; */
+	
+		function insert_passenger($tran_id, $pass_id, $src, $src_pass_x, $src_pass_y, $dst, $dst_pass_x, $dst_pass_y){
 		
-			if(array_key_exists('callback', $_GET)){
-
-				header('Content-Type: text/javascript; charset=utf8');
-				header('Access-Control-Allow-Origin: http://localhost:8080/');
-				header('Access-Control-Max-Age: 3628800');
-				header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-
-				$callback = $_GET['callback'];
-				echo $callback.'('.$reply.');';
-
-			}else{
-				// normal JSON string
-				header('Content-Type: application/json; charset=utf8');
-
-				echo $reply;
+			$query = mysql_query("INSERT INTO passengers VALUES ($tran_id, $pass_id, '$src', $src_pass_x, $src_pass_y, '$dst', $dst_pass_x, $dst_pass_y, 0);");
+ 
+			if(!$query){
+				return false;
 			}
-	}
-
+			else{
+				return true;
+			}
+		}
 ?>

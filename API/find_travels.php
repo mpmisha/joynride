@@ -5,7 +5,7 @@
 include('db_conf.php');
 ##############################################################################
 #USAGE:
-#?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15
+#?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15&user_id=33
 
 #notes:
 #	1. take care of transaction_id [AI] !
@@ -18,6 +18,7 @@ $dest_y = $_GET['dsty'];
 $date = "DATE " . "'" . $_GET['date'] . "'";
 $time ="TIME " . "'" . $_GET['time'] . "'";
 $max_price = $_GET['max_price'];
+$user_id = $_GET['user_id'];
 
 
 
@@ -26,27 +27,33 @@ $query = mysql_query("SELECT *
 	WHERE $date = departure_date
 	AND $max_price >= price_per_person
 	AND  ADDTIME(departure_time, '-01:00:00') <= $time AND ADDTIME(departure_time, '+01:00:00') >= $time
+	AND transaction_id NOT IN (SELECT tran_id FROM passengers WHERE pass_id = $user_id)
 	;");
 
 if(!$query){
-	echo "error!";
+
+	$final_set = array('error' => 'server is down');
 }
-$final_set = array();
-$length = mysql_num_rows($query);
+else{
 
-for ($i = 0; $i < $length ; $i++) {
-	$array = mysql_fetch_array($query);
-	$path = $array['the_path'];
-	if(location_in_path($dest_x, $dest_y, $path)){ #if destination is on the path
-		if(is_in_radius($source_x, $source_y, $array['source_x'], $array['source_y'], $array['km_from_src'])){
-			array_push($final_set, $array['transaction_id']);
+	$final_set = array();
+	$length = mysql_num_rows($query);
 
+	for ($i = 0; $i < $length ; $i++) {
+		$array = mysql_fetch_array($query);
+		$path = $array['the_path'];
+		if(location_in_path($dest_x, $dest_y, $path)){ #if destination is on the path
+		
+			if(is_in_radius($source_x, $source_y, $array['source_x'], $array['source_y'], $array['km_from_src'])){
+			
+				array_push($final_set, $array['transaction_id']);
+			}
 		}
-
 	}
 }
 
 $reply = json_encode($final_set);
+
 			if(array_key_exists('callback', $_GET)){
 
 				header('Content-Type: text/javascript; charset=utf8');

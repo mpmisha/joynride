@@ -3,6 +3,12 @@
 #extract the user's id
 function get_traveller_info($user_id){
 	$query = mysql_query("SELECT * FROM `personal_info` WHERE (user_id='$user_id')");
+	
+	if (!$query){
+	
+		return false;
+	}
+	
 	$traveller_info = mysql_fetch_array($query);
 	
 	$f_name = $traveller_info['first_name'];
