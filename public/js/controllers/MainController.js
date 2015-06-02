@@ -201,6 +201,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
                 }
             },
             function (err) {
+                NotifyService.success('<span>Your request has been sent <br/>watch out for updated on the update page!!');
                 console.log("err - ", err);
             });
     }

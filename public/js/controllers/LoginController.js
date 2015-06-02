@@ -12,8 +12,8 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
         $location.path('/signup');
     }
     $scope.submitForm = function () {
-        Request.get('/authentication?userName=guylitvak&password=g123', function (data) {
-        //Request.get('/authentication?userName=' + $scope.user.userName + '&password=' + $scope.user.password, function (data) { //TODO:switch to this
+        //Request.get('/authentication?userName=guylitvak&password=g123', function (data) {
+        Request.get('/authentication?userName=' + $scope.user.userName + '&password=' + $scope.user.password, function (data) { //TODO:switch to this
             console.log("authentication good - ", data);
             if (!data.error) {
                 Request.get('/get_personal_info.php?id=' + data.user_id, function (userInfo) {
