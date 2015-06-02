@@ -4,8 +4,10 @@
 
 angular.module('joynRideApp').factory('Request', ['$http', 'config','usSpinnerService','$rootScope',function ($http, config,usSpinnerService,$rootScope) {
     var spinneractive = false;
+    var a = true;
     $rootScope.$on('us-spinner:spin', function(event, key) {
         spinneractive = true;
+
     });
 
     $rootScope.$on('us-spinner:stop', function(event, key) {
