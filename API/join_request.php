@@ -56,8 +56,7 @@ $q_insert = insert_request($tran_id, $id, $src, $src_pass_x, $src_pass_y, $dst, 
 $driver_id = get_driver_id($tran_id);
 $trav_info = get_traveller_info($id);
 
-if ($driver_id == false || $trav_info == false || !$q_insert){
-	echo !$q_insert;
+if ($driver_id == false || $trav_info == false || $q_insert == false){
 	$returned_arr = array('error' => 'server is down');
 }
 else{

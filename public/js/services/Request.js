@@ -17,6 +17,7 @@ angular.module('joynRideApp').factory('Request', ['$http', 'config','usSpinnerSe
             if (!spinneractive) {
                 usSpinnerService.spin('spinner-1');
             }
+            console.log('get - ',config.baseUrl + url);
             $http.jsonp(config.baseUrl + url + (url.indexOf('?') === -1 ? '?' : '&' + 'callback=JSON_CALLBACK'))
             //$http.get(config.baseUrl + url)
                 .success(function (data) {

@@ -6,6 +6,8 @@
 	#Usage: ?tran_id=1&pass_id=1&driver_id=1&punc_rate=2&safety_rate=3&atmo_rate=3&gen_rate=5
 	##########################################################################################
 
+    $error = array();
+
 	$pass_id = $_GET['pass_id'];
 	$driver_id = $_GET['driver_id'];
 	$punc = $_GET['punc_rate'];
@@ -35,7 +37,8 @@
 		$insertion = mysql_query("UPDATE rates SET punctuality = $punc, safety = $safety, atmosphere = $atmo, general_rank = $gen, total_number_of_ranking = $total WHERE driver_id = $driver_id AND passenger_id = $pass_id");
 	}
 	if (!$insertion) {
-		return json_encode(array('error' => 'server is down'));
+		$error['error'] = 'server is down';
+		return json_encode($error);
 	}
 
 	#Updating 'has_rated' to 1

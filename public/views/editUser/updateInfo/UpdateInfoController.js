@@ -15,7 +15,10 @@ angular.module('joynRideApp').controller('UpdateInfoController', function ($scop
 
     Request.get('/get_personal_info.php?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
         $scope.user = userInfo;
+
+        if($scope.user.pic=='bullshit' ||$scope.user.pic==null ) $scope.user.pic = '../../../img/profile.jpg';
     });
+
 
     $scope.updateInfo = function () {
         Request.get('/personal_info_insertion?user_id=' + JSON.parse(localStorage.user).user_id + '&first_name=' + $scope.user.f_name + '&last_name=' + $scope.user.l_name + '&phone_number=' + $scope.user.phone + '&alt_email_add=' + $scope.user.alt_mail + '&picture=bullshit', function (data) {
