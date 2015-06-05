@@ -24,11 +24,13 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                     localStorage.setItem('user', JSON.stringify(userInfo));
                     Request.get('/need_to_rate.php?user_id='+userInfo.user_id,function(needToRank){
                       if(!needToRank.error){
+                          window.scope.needToRank = needToRank;
                           //TODO: make it work with real output!
                           needToRank = {
                               toRate:[10,4,47]
                           };
-                          var msg = '<span>Hi ' + userInfo.f_name + '<br/>you need to rank ' + needToRank.toRate.length+ ' rides <br/><a href="#/rank">Rank Now</a></span>';
+
+                          var msg = '<span>Hi ' +( userInfo.f_name?userInfo.f_name:"there" )+ 'xxx<br/>you need to rank ' + needToRank.toRate.length+ ' rides <br/><a href="#/rank">Rank Now</a></span>';
                           var duration = 5000
 
                           if (userInfo.ridesToRank > 0 && userInfo.ridesToRank <= 2) {
@@ -37,6 +39,13 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                               NotifyService.warning(msg, duration);
                           } else if (userInfo.ridesToRank > 4) {
                               NotifyService.fail(msg, duration);
+                          }
+
+                          if(!(userInfo.f_name && userInfo.l_name && userInfo.phone && userInfo.uni_mail && userInfo.alt_mail)){
+                              var msg = '<span>There is some missing fields in your user information<br/> please fill them in <a href="#/editInfo">here</a></span>';
+                              var duration = 5000
+                              NotifyService.fail(msg, duration);
+
                           }
                           $location.path('/home');
                       }

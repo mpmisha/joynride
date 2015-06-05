@@ -113,7 +113,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
 
     $scope.sendRequest = function () { //passenger presses submit button
         //Request.get('/find_travels?srcx=31.773687&srcy=34.684409&dstx=2&dsty=8&date=2010-05-07&time=15:00:00&max_price=15&user_id='+JSON.parse(localStorage.user).user_id
-        Request.get('/find_travels?srcx=' + $scope.map.from.geometry.location.A + '&srcy=' + $scope.map.from.geometry.location.F + '&dstx=' + $scope.map.to.geometry.location.A + '&dsty=' + $scope.map.to.geometry.location.F + '&time=' + extractTime($scope.ride.time) + '&date=' + extractDate($scope.ride.date) + '&max_price=15&user_id=' + JSON.parse(localStorage.user).user_id
+        Request.get('/find_travels?srcx=' + $scope.map.from.geometry.location.A + '&srcy=' + $scope.map.from.geometry.location.F + '&dstx=' + $scope.map.to.geometry.location.A + '&dsty=' + $scope.map.to.geometry.location.F + '&time=' + extractTime($scope.ride.time) + '&date=' + extractDate($scope.ride.date) + '&max_price='+$scope.ride.maxPrice+'&user_id=' + JSON.parse(localStorage.user).user_id
             , function (data) {
                 getTravelsInfo(data);
             }
