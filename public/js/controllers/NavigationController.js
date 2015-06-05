@@ -8,7 +8,7 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
     $scope.user = {};
     if (Auth.isLoggedIn()) {
         $scope.user = Auth.getUser();
-        console.log("user :",$scope.user)
+        //console.log("user :",$scope.user)
     }
     $scope.menu = [
         {label: 'Home', route: '/'},
