@@ -14,10 +14,10 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
     $scope.submitForm = function () {
         //Request.get('/authentication?userName=guylitvak&password=g123', function (data) {
         Request.get('/authentication?userName=' + $scope.user.userName + '&password=' + $scope.user.password, function (data) { //TODO:switch to this
-            console.log("authentication good - ", data);
+            //console.log("authentication good - ", data);
             if (!data.error) {
                 Request.get('/get_personal_info.php?id=' + data.user_id, function (userInfo) {
-                    console.log("get_personal_info - ", userInfo);
+                    //console.log("get_personal_info - ", userInfo);
                     userInfo.ridesToRank = 5;
                     userInfo.user_id = data.user_id;
                     userInfo.token = '123'; //TODO:for authentication purpose...
@@ -51,7 +51,7 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                       }
                     })
                 }, function (err) {
-                    console.log('user data error -', err);
+                    //console.log('user data error -', err);
                 });
             }else{
                 NotifyService.fail('<span>'+data.error+'</span>');
