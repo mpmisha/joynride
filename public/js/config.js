@@ -3,6 +3,6 @@
  */
 angular.module('joynRideApp')
     .constant('config', {
-        'baseUrl': 'http://joynride.getenjoyment.net/joynride'
-        //'baseUrl': 'http://80.178.198.187:8080/joynride'
+        //'baseUrl': 'http://joynride.getenjoyment.net/joynride'
+        'baseUrl': 'http://80.178.198.187:8080/joynride'
     })

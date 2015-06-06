@@ -75,8 +75,8 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         $scope.map.from = null;
         $scope.map.to = null;
         $scope.map.markers = {
-            from: {coordinates: {latitude: 31.804, longitude: 34.655}},
-            to: {coordinates: {latitude: 32.085, longitude: 34.781}}
+            //from: {coordinates: {latitude: 31.804, longitude: 34.655}},
+            //to: {coordinates: {latitude: 32.085, longitude: 34.781}}
         };
         $scope.ride.date = new Date();
         $scope.ride.maxPrice = 0;
@@ -265,7 +265,6 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
             };
             $scope.showRoute();
         }
-
     }
 
     var map;

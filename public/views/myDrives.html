@@ -34,7 +34,7 @@
     <h1>My Drives as a Driver</h1>
     <section class="top-margin" layout="column" layout-sm="column" layout-align="center center">
         <div ng-repeat="(key,value) in driverDrives" class="well col-lg-6 col-md-6 myDriveItem">
-            <div layout="row" layout-align="center left" class="title" ng-click="value.showInfo=!value.showInfo;getPassengers(value.passengers)">
+            <div layout="row" layout-align="center left" class="title" ng-click="value.showInfo=!value.showInfo;getPassengers(value)">
                 <span class="side-margin"><b>{{key}}</b> : </span>
                 <span class="side-margin"><b>{{value.date}}</b> : </span>
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
@@ -76,9 +76,9 @@
                 //TODO : FINish THis!!
                 <ui-gmap-google-map direction-service center="map.center" zoom="map.zoom" id="googleMap">
                     <ui-gmap-marker coords="map.markers.from.coordinates" idkey="1"
-                                    ng-if="value.map.markers.from"></ui-gmap-marker>
+                                    ng-if="value.from"></ui-gmap-marker>
                     <ui-gmap-marker coords="map.markers.to.coordinates" idkey="2"
-                                    ng-if="value.map.markers.to"></ui-gmap-marker>
+                                    ng-if="value.to"></ui-gmap-marker>
                 </ui-gmap-google-map>
             </div>
         </div>

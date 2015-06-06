@@ -59,22 +59,45 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
             (function (key) {
                 Request.get('/get_transaction_info?tran_id=' + key, function (travelInfo) {
                     if(!travelInfo.error){
+                        window.scope.ppp = {travelInfo:travelInfo}
+                        var path =JSON.parse(travelInfo.path);
                         var passengers = $scope.driverDrives[key];
                         $scope.driverDrives[key] = travelInfo;
                         $scope.driverDrives[key].passengers = passengers;
                         $scope.driverDrives[key].showInfo = false;
+                        $scope.driverDrives[key].map={
+                            from : {
+                                coordinates:{
+                                    latitude:path[0].x,
+                                    longitude:path[0].y
+
+                                }
+                            },
+                            to:{
+                                coordinates:{
+                                    latitude:path[path.length-1].x,
+                                    longitude:path[path.length-1].y
+                                }
+                            }
+                        }
+                        $scope.getPassengers(travelInfo);
                     }else{
                         delete $scope.driverDrives[key]
                         console.error('error getting key '+key+', message - ',travelInfo.error);
                     }
-
                 });
             })(key)
         }
     }, function (err) {
         console.log("err= ", err);
     })
-    $scope.getPassengers = function(passengerArray){
+    $scope.getPassengers = function(value){
+        if(value){
+            passengerArray = value.passengers||[];
+        }else{
+            return;
+        }
+
         for(var i=0;i<passengerArray.length;i++){
             (function(i,passengerArray){
                 Request.get('/get_personal_info?id=' + passengerArray[i].trav_id, function (info) {
@@ -98,5 +121,4 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
             });
         }
     }
-
 });
