@@ -6,7 +6,7 @@ angular.module('joynRideApp').controller('EditUserInfoController', function ($sc
     $scope.config = config;
     $scope.user = {};
 
-    Request.get('/get_personal_info.php?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
+    Request.get('/get_personal_info?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
         $scope.user = userInfo;
     });
 

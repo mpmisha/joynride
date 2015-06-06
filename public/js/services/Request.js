@@ -12,12 +12,19 @@ angular.module('joynRideApp').factory('Request', ['$http', 'config','usSpinnerSe
     $rootScope.$on('us-spinner:stop', function(event, key) {
         spinneractive = false;
     });
+    function addDotPhpIfNeeded(url){
+        if(url.indexOf('.php?')==-1){
+            url = url.replace('?','.php?');
+        }
+        return url;
+    }
     return {
         get: function (url, successCallback, errorCallback) {
             if (!spinneractive) {
                 usSpinnerService.spin('spinner-1');
             }
             console.warn('get request- ',config.baseUrl + url);
+            url = addDotPhpIfNeeded(url);
             $http.jsonp(config.baseUrl + url + (url.indexOf('?') === -1 ? '?' : '&' + 'callback=JSON_CALLBACK'))
             //$http.get(config.baseUrl + url)
                 .success(function (data) {

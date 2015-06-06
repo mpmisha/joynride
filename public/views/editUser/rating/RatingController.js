@@ -5,7 +5,7 @@ angular.module('joynRideApp').controller('ratingController', function ($scope, $
 
     window.rating = $scope;
     $scope.rating = {}
-    Request.get('/return_rate.php?id=' + JSON.parse(localStorage.user).user_id, function (data) {
+    Request.get('/return_rate?id=' + JSON.parse(localStorage.user).user_id, function (data) {
         $scope.rating = data;
     }, function () {
         $scope.rating = {

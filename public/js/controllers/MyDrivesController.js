@@ -58,7 +58,6 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
         for (var key in $scope.driverDrives) {
             (function (key) {
                 Request.get('/get_transaction_info?tran_id=' + key, function (travelInfo) {
-                    console.log('here - ',travelInfo)
                     if(!travelInfo.error){
                         var passengers = $scope.driverDrives[key];
                         $scope.driverDrives[key] = travelInfo;
@@ -94,6 +93,7 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
     $scope.getDriverInfo = function (id, obj) {
         if (!obj.driver) {
             Request.get('/get_personal_info?id=' + id, function (info) {
+                window.scope.drives = info;
                 obj.driver = info;
             });
         }

@@ -16,13 +16,13 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
         Request.get('/authentication?userName=' + $scope.user.userName + '&password=' + $scope.user.password, function (data) { //TODO:switch to this
             //console.log("authentication good - ", data);
             if (!data.error) {
-                Request.get('/get_personal_info.php?id=' + data.user_id, function (userInfo) {
+                Request.get('/get_personal_info?id=' + data.user_id, function (userInfo) {
                     //console.log("get_personal_info - ", userInfo);
                     userInfo.ridesToRank = 5;
                     userInfo.user_id = data.user_id;
                     userInfo.token = '123'; //TODO:for authentication purpose...
                     localStorage.setItem('user', JSON.stringify(userInfo));
-                    Request.get('/need_to_rate.php?user_id='+userInfo.user_id,function(needToRank){
+                    Request.get('/need_to_rate?user_id='+userInfo.user_id,function(needToRank){
                       if(!needToRank.error){
                           window.scope.needToRank = needToRank;
                           //TODO: make it work with real output!

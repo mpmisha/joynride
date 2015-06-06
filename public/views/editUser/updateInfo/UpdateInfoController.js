@@ -13,7 +13,7 @@ angular.module('joynRideApp').controller('UpdateInfoController', function ($scop
         return $scope.user.password && $scope.user.passwordRepeat && ($scope.user.password == $scope.user.passwordRepeat)
     };
 
-    Request.get('/get_personal_info.php?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
+    Request.get('/get_personal_info?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
         $scope.user = userInfo;
 
         if($scope.user.pic=='bullshit' ||$scope.user.pic==null ) $scope.user.pic = '../../../img/profile.jpg';

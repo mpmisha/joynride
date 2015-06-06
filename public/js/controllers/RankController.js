@@ -21,7 +21,7 @@ angular.module('joynRideApp').controller('RankController', function ($scope,Requ
         }]
     };
 
-    Request.get('/need_to_rate.php?user_id='+JSON.parse(localStorage.user).user_id,function(needToRank){
+    Request.get('/need_to_rate?user_id='+JSON.parse(localStorage.user).user_id,function(needToRank){
         if(!needToRank.error){
             //TODO: make it work with real output!
             needToRank = {
@@ -29,8 +29,8 @@ angular.module('joynRideApp').controller('RankController', function ($scope,Requ
             };
             for (var i = 0; i < needToRank.toRate.length; i++) {
                 (function(i,needToRank){
-                    Request.get('/get_transaction_info.php?tran_id='+needToRank.toRate[i],function(travelInfo){
-                        Request.get('/get_personal_info.php?id='+travelInfo.driver_id,function(driverInfo){
+                    Request.get('/get_transaction_info?tran_id='+needToRank.toRate[i],function(travelInfo){
+                        Request.get('/get_personal_info?id='+travelInfo.driver_id,function(driverInfo){
                             rideToRank = {
                                 id:needToRank.toRate[i],
                                 info:travelInfo,
@@ -77,7 +77,7 @@ angular.module('joynRideApp').controller('RankController', function ($scope,Requ
         if(!ride.punc_rate || !ride.safety_rate || !ride.atmo_rate || !ride.gen_rate){
             NotifyService.fail('<span>Your need to rank all categories<br/>');
         }else{
-            Request.get('/rate_insertion.php?tran_id='+ride.id+'&pass_id='+JSON.parse(localStorage.user).user_id+'&driver_id='+ride.info.driver_id+'&punc_rate='+ride.punc_rate.rate+'&safety_rate='+ride.safety_rate.rate+'&atmo_rate='+ride.atmo_rate.rate+'&gen_rate='+ride.gen_rate.rate,function(data){
+            Request.get('/rate_insertion?tran_id='+ride.id+'&pass_id='+JSON.parse(localStorage.user).user_id+'&driver_id='+ride.info.driver_id+'&punc_rate='+ride.punc_rate.rate+'&safety_rate='+ride.safety_rate.rate+'&atmo_rate='+ride.atmo_rate.rate+'&gen_rate='+ride.gen_rate.rate,function(data){
                 if(!data.error){
                     NotifyService.success('<span>Your rank has been submitted!<br/>');
                     removeRide(ride.id);

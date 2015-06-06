@@ -8,10 +8,10 @@
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
                 <span class="side-margin">Status : <b ng-class="value.status=='denied'?'text-red':(value.status=='approved'?'text-green':'text-blue')">{{value.status}}</b></span>
             </div>
-            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin  body">
+            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin  body col-lg-6 col-md-12">
                 <ul style="text-align: left">
                     <li>
-                        <span class="">time : <b>{{value.time}}</b></span>hjk
+                        <span class="">time : <b>{{value.time}}</b></span>
                     </li>
                     <li>
                         <span class="">price :  <b>{{value.price}}</b> </span>
@@ -23,6 +23,8 @@
                         <span class=""> # of passengers  : {{value.passengers.length}}</span>
                     </li>
                 </ul>
+            </div>
+            <div class="col-lg-6 col-md-12" ng-show="value.showInfo">
             </div>
         </div>
     </section>
@@ -38,7 +40,7 @@
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
                 <span class="side-margin"><b> # of passengers : {{value.passengers.length}}</b></span>
             </div>
-            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin body">
+            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin body col-lg-6 col-md-12">
                 <ul style="text-align: left">
                     <li>
                         <span class="">time : <b>{{value.time}}</b></span>
@@ -68,6 +70,16 @@
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div class="col-lg-6 col-md-12" ng-show="value.showInfo">
+
+                //TODO : FINish THis!!
+                <ui-gmap-google-map direction-service center="map.center" zoom="map.zoom" id="googleMap">
+                    <ui-gmap-marker coords="map.markers.from.coordinates" idkey="1"
+                                    ng-if="value.map.markers.from"></ui-gmap-marker>
+                    <ui-gmap-marker coords="map.markers.to.coordinates" idkey="2"
+                                    ng-if="value.map.markers.to"></ui-gmap-marker>
+                </ui-gmap-google-map>
             </div>
         </div>
     </section>
