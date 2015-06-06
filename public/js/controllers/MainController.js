@@ -202,7 +202,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
             function (data) {
                 if (!data.error) {
                     console.log('data  -', data)
-                    window.alert('ok!');
+                    NotifyService.success('<span>The request has been submited!<br/> Watch out for updates soon!</span>')
                 } else {
                     console.error(data);
                 }

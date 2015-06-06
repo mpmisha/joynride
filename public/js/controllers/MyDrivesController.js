@@ -1,8 +1,23 @@
 /**
  * Created by Michael on 5/24/2015.
  */
-angular.module('joynRideApp').controller('MyDrivesController', function ($scope, Request) {
+angular.module('joynRideApp').controller('MyDrivesController', function ($scope, Request,NotifyService) {
     window.scope = $scope;
+    $scope.passengerStatus = [
+        {
+            label: 'approved',
+            id: 1,
+            class: 'text-green'
+        }, {
+            label: 'pending',
+            id: 0,
+            class: 'text-blue'
+        }, {
+            label: 'rejected',
+            id: 2,
+            class: 'text-red'
+        }
+    ]
     function arraysToObjects(obj) {
         var newObj = {};
         for (var key in obj) {
@@ -24,21 +39,21 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
         tag = tag.charAt(0).toUpperCase() + tag.slice(1);
         return tag.replace(/_/g, ' ');
     }
-    Request.get('/traveller_all_transactions?user_id='+JSON.parse(localStorage.user).user_id, function (data) {
+    Request.get('/traveller_all_transactions?user_id=' + JSON.parse(localStorage.user).user_id, function (data) {
         var dataClone = (JSON.parse(JSON.stringify(data))); //clone object
         $scope.travellerDrives = arraysToObjects(dataClone);
 
         for (var key in $scope.travellerDrives) {
             (function (key) {
                 Request.get('/get_transaction_info?tran_id=' + key, function (travelInfo) {
-                    if(!travelInfo.error){
+                    if (!travelInfo.error) {
                         var status = $scope.travellerDrives[key].status;
                         $scope.travellerDrives[key] = travelInfo;
                         $scope.travellerDrives[key].status = status;
                         $scope.travellerDrives[key].showInfo = false;
-                    }else{
+                    } else {
                         delete $scope.travellerDrives[key]
-                        console.error('error getting key '+key+', message - ',travelInfo.error);
+                        console.error('error getting key ' + key + ', message - ', travelInfo.error);
                     }
 
                 });
@@ -49,41 +64,40 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
     })
 
 
-
     //how does it work?
-    Request.get('/driver_all_transactions?user_id='+JSON.parse(localStorage.user).user_id, function (data) {
+    Request.get('/driver_all_transactions?user_id=' + JSON.parse(localStorage.user).user_id, function (data) {
         var dataClone = (JSON.parse(JSON.stringify(data))); //clone object
         $scope.driverDrives = dataClone;
 
         for (var key in $scope.driverDrives) {
             (function (key) {
                 Request.get('/get_transaction_info?tran_id=' + key, function (travelInfo) {
-                    if(!travelInfo.error){
-                        window.scope.ppp = {travelInfo:travelInfo}
-                        var path =JSON.parse(travelInfo.path);
+                    if (!travelInfo.error) {
+                        window.scope.ppp = {travelInfo: travelInfo}
+                        var path = JSON.parse(travelInfo.path);
                         var passengers = $scope.driverDrives[key];
                         $scope.driverDrives[key] = travelInfo;
                         $scope.driverDrives[key].passengers = passengers;
                         $scope.driverDrives[key].showInfo = false;
-                        $scope.driverDrives[key].map={
-                            from : {
-                                coordinates:{
-                                    latitude:path[0].x,
-                                    longitude:path[0].y
+                        $scope.driverDrives[key].map = {
+                            from: {
+                                coordinates: {
+                                    latitude: path[0].x,
+                                    longitude: path[0].y
 
                                 }
                             },
-                            to:{
-                                coordinates:{
-                                    latitude:path[path.length-1].x,
-                                    longitude:path[path.length-1].y
+                            to: {
+                                coordinates: {
+                                    latitude: path[path.length - 1].x,
+                                    longitude: path[path.length - 1].y
                                 }
                             }
                         }
                         $scope.getPassengers(travelInfo);
-                    }else{
+                    } else {
                         delete $scope.driverDrives[key]
-                        console.error('error getting key '+key+', message - ',travelInfo.error);
+                        console.error('error getting key ' + key + ', message - ', travelInfo.error);
                     }
                 });
             })(key)
@@ -91,24 +105,30 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
     }, function (err) {
         console.log("err= ", err);
     })
-    $scope.getPassengers = function(value){
-        if(value){
-            passengerArray = value.passengers||[];
-        }else{
+    $scope.getPassengers = function (value) {
+
+        if (value) {
+            passengerArray = value.passengers || [];
+        } else {
             return;
         }
 
-        for(var i=0;i<passengerArray.length;i++){
-            (function(i,passengerArray){
+        for (var i = 0; i < passengerArray.length; i++) {
+            (function (i, passengerArray) {
                 Request.get('/get_personal_info?id=' + passengerArray[i].trav_id, function (info) {
-                    if(!info.error){
-                        console.log('info - ',info);
-                        passengerArray[i].info=info;
-                    }else{
-                        console.error('error getting info for passenger '+passengerArray[i].trav_id+', message - ',travelInfo.error);
+                    if (!info.error) {
+                        console.log('info - ', info);
+                        if (info.pic == "bullshit" || info.pic == null) {
+                            info.pic = '../../../img/profile.jpg';
+                        }
+                        info.id=passengerArray[i].trav_id;
+                        passengerArray[i].info = info;
+
+                    } else {
+                        console.error('error getting info for passenger ' + passengerArray[i].trav_id + ', message - ', travelInfo.error);
                     }
                 })
-            })(i,passengerArray)
+            })(i, passengerArray)
 
         }
     };
@@ -120,5 +140,12 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
                 obj.driver = info;
             });
         }
+    }
+    $scope.updatePassengerStatus = function (passenger, rideId) {
+        var status = passenger.status == 'rejected' ? 2 : (passenger.status == 'approved' ? 1 : 0);
+        console.log('passenger-', passenger);
+        Request.get('/driver_response_to_request?tran_id='+rideId+'&pass_id='+passenger.info.id+'&reply='+status, function (data) {
+            NotifyService.success('<span> status updated !<br/> '+passenger.info.f_name+'will be notified</span>');
+        })
     }
 });

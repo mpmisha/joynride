@@ -9,6 +9,13 @@ angular.module('joynRideApp').controller('EditUserInfoController', function ($sc
     Request.get('/get_personal_info?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
         $scope.user = userInfo;
     });
+    var tabs = {
+        'updates': 3
+    }
+    if ($location.search().tab) {
+        $scope.selectedIndex = tabs[$location.search().tab];
+    }
+
 
     $scope.passwordConfirmed = function () {
         return $scope.user.password && $scope.user.passwordRepeat && ($scope.user.password == $scope.user.passwordRepeat)

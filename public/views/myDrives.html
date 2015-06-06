@@ -1,28 +1,32 @@
 <div class="text-center" ng-show="!isEmpty(travellerDrives)">
     <h1>My Drives as a hitchhiker</h1>
     <section class="top-margin" layout="column" layout-sm="column" layout-align="center center">
-        <div ng-repeat="(key,value) in travellerDrives" class="well col-lg-6 col-md-6 myDriveItem" >
-            <div layout="row" layout-align="center left" class="title" ng-click="value.showInfo=!value.showInfo;getDriverInfo(value.driver_id,value)">
+        <div ng-repeat="(key,value) in travellerDrives" class="well col-lg-6 col-md-6 myDriveItem">
+            <div layout="row" layout-align="center left" class="title"
+                 ng-click="value.showInfo=!value.showInfo;getDriverInfo(value.driver_id,value)">
                 <span class="side-margin"><b>{{key}}</b> : </span>
                 <span class="side-margin"><b>{{value.date}}</b> : </span>
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
-                <span class="side-margin">Status : <b ng-class="value.status=='denied'?'text-red':(value.status=='approved'?'text-green':'text-blue')">{{value.status}}</b></span>
+                <span class="side-margin">Status : <b
+                        ng-class="value.status=='denied'?'text-red':(value.status=='approved'?'text-green':'text-blue')">{{value.status}}</b></span>
             </div>
-            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin  body col-lg-6 col-md-12">
-                <ul style="text-align: left">
-                    <li>
-                        <span class="">time : <b>{{value.time}}</b></span>
-                    </li>
-                    <li>
-                        <span class="">price :  <b>{{value.price}}</b> </span>
-                    </li>
-                    <li>
-                        <span class=""> driver : {{value.driver.l_name}}&nbsp{{value.driver.f_name}}</span>
-                    </li>
-                    <li>
-                        <span class=""> # of passengers  : {{value.passengers.length}}</span>
-                    </li>
-                </ul>
+            <div layout="row" layout-align="center left" ng-show="value.showInfo"
+                 class="well top-margin  body col-lg-6 col-md-12">
+                    <ul style="text-align: left;">
+                        <li>
+                            <span class="">time : <b>{{value.time}}</b></span>
+                        </li>
+                        <li>
+                            <span class="">price :  <b>{{value.price}}</b> </span>
+                        </li>
+                        <li>
+                            <span class=""> driver : {{value.driver.l_name}}&nbsp{{value.driver.f_name}}</span>
+                        </li>
+                        <li>
+                            <span class=""> # of passengers  : {{value.passengers.length}}</span>
+                        </li>
+                    </ul>
+
             </div>
             <div class="col-lg-6 col-md-12" ng-show="value.showInfo">
             </div>
@@ -34,14 +38,16 @@
     <h1>My Drives as a Driver</h1>
     <section class="top-margin" layout="column" layout-sm="column" layout-align="center center">
         <div ng-repeat="(key,value) in driverDrives" class="well col-lg-6 col-md-6 myDriveItem">
-            <div layout="row" layout-align="center left" class="title" ng-click="value.showInfo=!value.showInfo;getPassengers(value)">
+            <div layout="row" layout-align="center left" class="title"
+                 ng-click="value.showInfo=!value.showInfo;getPassengers(value)">
                 <span class="side-margin"><b>{{key}}</b> : </span>
                 <span class="side-margin"><b>{{value.date}}</b> : </span>
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
                 <span class="side-margin"><b> # of passengers : {{value.passengers.length}}</b></span>
             </div>
-            <div layout="row" layout-align="center left" ng-show="value.showInfo" class="well top-margin body col-lg-6 col-md-12">
-                <ul style="text-align: left">
+            <div layout="row" layout-align="center left" ng-show="value.showInfo"
+                 class="well top-margin body col-lg-6 col-md-12">
+                <ul style="text-align: left;">
                     <li>
                         <span class="">time : <b>{{value.time}}</b></span>
                     </li>
@@ -49,25 +55,34 @@
                         <span class="">profit :  <b>{{value.price * value.passengers.length}}</b> </span>
                     </li>
                     <li>
-                        <span class="">passengers  :</span>
-                        <ul>
-                            <li ng-repeat="passenger in value.passengers">
-                                <ul>
-                                    <li>
-                                        {{passenger.info.f_name}} {{passenger.info.l_name}}
-                                    </li>
-                                    <li>
-                                        {{passenger.info.uni_mail}}
-                                    </li>
-                                    <li>
-                                        {{passenger.info.phone}}
-                                    </li>
-                                    <li>
-                                        status : <b ng-class="passenger.status =='denied'?'text-red':(passenger.status=='approved'?'text-green':'text-blue')">{{passenger.status}}</b>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <span class="" style="display: block;">passengers  :</span>
+
+                        <div class="passenger" ng-repeat="passenger in value.passengers" style="float:left">
+                            <div class="col-lg-6;" style="float:left; width:100px; height: 100px; display: block; margin-left:-25px; margin-top:25px;">
+                                <img ng-src="{{passenger.info.pic}}" class="bottom-margin profile-pic" width="100px" max-height="100px">
+                            </div>
+                            <ul class="col-lg-6">
+                                <li>
+                                    <ul>
+                                        <li>
+                                            {{passenger.info.f_name}} {{passenger.info.l_name}}
+                                        </li>
+                                        <li>
+                                            {{passenger.info.uni_mail}}
+                                        </li>
+                                        <li>
+                                            {{passenger.info.phone}}
+                                        </li>
+                                        <li>
+                                            status: <select
+                                                ng-options="status.label as status.label for status in passengerStatus"
+                                                ng-model="passenger.status" ng-change="updatePassengerStatus(passenger,key)"></select>
+                                            <!--<b ng-class="passenger.status =='denied'?'text-red':(passenger.status=='approved'?'text-green':'text-blue')">{{passenger.status}}</b>-->
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>

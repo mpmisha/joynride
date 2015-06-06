@@ -3,7 +3,7 @@
  */
 
 
-angular.module('joynRideApp').controller('NavigationController', ['$scope', '$rootScope', '$location', 'Auth', function ($scope, $rootScope, $location, Auth) {
+angular.module('joynRideApp').controller('NavigationController', ['$scope', '$rootScope', '$location','$interval', 'Auth','NotificationService', function ($scope, $rootScope, $location, $interval, Auth,NotificationService) {
 
     $scope.user = {};
     if (Auth.isLoggedIn()) {
@@ -17,16 +17,34 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
         {label: 'My Drives', route: '/myDrives'},
         {label: 'Contact', route: '/contact'}
     ]
+    $scope.dynamicPopover = {
+        notificationTemplate: 'notificationTemplate.html'
+    };
+
+    function updateNotifications(){
+        NotificationService.getNotifications(function(notifications){
+            $scope.notifications = notifications;
+            NotificationService.countNotifications(function(count){
+                console.log("counting...");
+                $scope.notifCount=count;
+            })
+        })
+    }
+    updateNotifications();
+    $interval(updateNotifications,20000);
 
     $scope.menuActive = '/';
     $rootScope.$on('$routeChangeSuccess', function (e, curr, prev) {
         $scope.menuActive = $location.path();
         $scope.user = Auth.getUser();
+        updateNotifications();
     });
 
     $scope.logout = function () {
         localStorage.clear();
+        NotificationService.resetNotifications();
         $location.path('/login');
+
     }
     $scope.edit = function () {
         $location.path('/editUser');

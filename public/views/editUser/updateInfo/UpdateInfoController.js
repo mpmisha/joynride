@@ -15,7 +15,6 @@ angular.module('joynRideApp').controller('UpdateInfoController', function ($scop
 
     Request.get('/get_personal_info?id=' + JSON.parse(localStorage.user).user_id, function (userInfo) {
         $scope.user = userInfo;
-
         if($scope.user.pic=='bullshit' ||$scope.user.pic==null ) $scope.user.pic = '../../../img/profile.jpg';
     });
 

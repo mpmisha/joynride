@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 5/1/2015.
  */
-angular.module('joynRideApp').controller('LoginController', function ($scope, $http, $window, $location, config, Request, NotifyService) {
+angular.module('joynRideApp').controller('LoginController', function ($scope, $http, $window, $location, config, Request, NotifyService,NotificationService) {
     window.scope = $scope;
     $scope.config = config;
     $scope.user = {
@@ -22,6 +22,12 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                     userInfo.user_id = data.user_id;
                     userInfo.token = '123'; //TODO:for authentication purpose...
                     localStorage.setItem('user', JSON.stringify(userInfo));
+                    NotificationService.updateNotifications(function(){
+                        NotificationService.getNotifications(function(notifications){
+                            window.notif = notifications;
+                        })
+                    });
+
                     Request.get('/need_to_rate?user_id='+userInfo.user_id,function(needToRank){
                       if(!needToRank.error){
                           window.scope.needToRank = needToRank;
