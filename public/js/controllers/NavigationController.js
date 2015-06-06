@@ -34,6 +34,9 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
     $scope.isLoggedIn = function () {
         return Auth.isLoggedIn();
     }
+    $scope.getUserName = function(){
+        return JSON.parse(localStorage.user).username
+    }
 
 }]);
 
