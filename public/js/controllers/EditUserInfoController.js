@@ -15,9 +15,9 @@ angular.module('joynRideApp').controller('EditUserInfoController', function ($sc
         'drives':2,
         'updates':3
     }
-    //if ($location.search().tab) {
-    //    $scope.selectedIndex = tabs[$location.search().tab];
-    //}
+    if ($location.search().tab) {
+        $scope.selectedIndex = tabs[$location.search().tab];
+    }
 
 
     $scope.passwordConfirmed = function () {
