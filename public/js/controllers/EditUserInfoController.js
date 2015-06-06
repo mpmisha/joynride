@@ -10,7 +10,10 @@ angular.module('joynRideApp').controller('EditUserInfoController', function ($sc
         $scope.user = userInfo;
     });
     var tabs = {
-        'updates': 3
+        'info':0,
+        'rating':1,
+        'drives':2,
+        'updates':3
     }
     if ($location.search().tab) {
         $scope.selectedIndex = tabs[$location.search().tab];
