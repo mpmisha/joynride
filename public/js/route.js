@@ -16,7 +16,7 @@ joynRideApp.config(function($routeProvider) {
         templateUrl: 'views/signup.html',
         controller: 'SignupController'
     }).when('/editInfo', {
-        templateUrl: 'views/EditUserInfo.html',
+        templateUrl: 'views/editUserInfo.html',
         controller: 'EditUserInfoController'
     }).when('/about', {
         templateUrl: 'views/about.html',
