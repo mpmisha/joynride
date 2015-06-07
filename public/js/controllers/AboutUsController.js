@@ -7,7 +7,7 @@ angular.module('joynRideApp').controller('AboutController', function($scope) {
         {
             fname:'Michael',
             lname:'Merjanov',
-            text:'A dude who does things',
+            text:'A dude.. just a dude',
             pic:'../img/michael.jpg'
         },{
             fname:'Shany',
