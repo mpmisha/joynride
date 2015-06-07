@@ -1,8 +1,22 @@
-* {
-    font-size: 100%;
+
+
+@font-face {
+    font-family: 'regular';
+    src: url('fonts/MicroExtendFLF.ttf');
+}
+@font-face {
+    font-family: 'bold';
+    src: url('fonts/MicroExtendFLF-Bold.ttf');
 }
 
 
+* {
+    font-size: 100%;
+    font-family:'regular' ;
+}
+b{
+    font-family:'bold' ;
+}
 .bigicon {
     font-size: 35px;
     color: #36A0FF;

@@ -32,10 +32,9 @@
             <br/><br/>
             <h1>The Team</h1>
             <br/><br/>
-            <div ng-repeat="person in members" class="col-lg-3">
-                <h1>{{person.name}}</h1>
+            <div ng-repeat="person in members" class="col-lg-3 text-center">
+                <h1>{{person.fname}}<br/>{{person.lname}}</h1>
                 <img ng-src="{{person.pic}}" style="width:150px; height: 150px; border-radius: 75px;">
-
                 <p>{{person.text}}</p>
 
             </div>
