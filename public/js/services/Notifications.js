@@ -22,6 +22,7 @@ angular.module('joynRideApp').factory('NotificationService', ['Request',function
             })
         },
         getNotifications : function(callback){
+
             if(callback) callback(notifications);
             return notifications;
 
@@ -37,6 +38,7 @@ angular.module('joynRideApp').factory('NotificationService', ['Request',function
             return count;
         },
         resetNotifications : function(callback){
+
             notifications={};
             if(callback) callback();
         }

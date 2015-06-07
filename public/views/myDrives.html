@@ -26,7 +26,6 @@
                             <span class=""> # of passengers  : {{value.passengers.length}}</span>
                         </li>
                     </ul>
-
             </div>
             <div class="col-lg-6 col-md-12" ng-show="value.showInfo">
             </div>
@@ -44,6 +43,7 @@
                 <span class="side-margin"><b>{{value.date}}</b> : </span>
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
                 <span class="side-margin"><b> # of passengers : {{value.passengers.length}}</b></span>
+                <span class="side-margin"><b> (approved: {{getApprovedPassengers(value)}})</b></span>
             </div>
             <div layout="row" layout-align="center left" ng-show="value.showInfo"
                  class="well top-margin body col-lg-6 col-md-12">

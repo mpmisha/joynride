@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 5/24/2015.
  */
-angular.module('joynRideApp').controller('MyDrivesController', function ($scope, Request,NotifyService) {
+angular.module('joynRideApp').controller('MyDrivesController', function ($scope, Request, NotifyService) {
     window.scope = $scope;
     $scope.passengerStatus = [
         {
@@ -121,7 +121,7 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
                         if (info.pic == "bullshit" || info.pic == null) {
                             info.pic = '../../../img/profile.jpg';
                         }
-                        info.id=passengerArray[i].trav_id;
+                        info.id = passengerArray[i].trav_id;
                         passengerArray[i].info = info;
 
                     } else {
@@ -141,11 +141,20 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
             });
         }
     }
+    $scope.getApprovedPassengers = function (value) {
+        var counter = 0;
+        if (value.passengers) {
+            for (var i = 0; i < value.passengers.length; i++) {
+                if (value.passengers[i].status == 'approved') counter++;
+            }
+        }
+        return counter;
+    }
     $scope.updatePassengerStatus = function (passenger, rideId) {
         var status = passenger.status == 'rejected' ? 2 : (passenger.status == 'approved' ? 1 : 0);
         console.log('passenger-', passenger);
-        Request.get('/driver_response_to_request?tran_id='+rideId+'&pass_id='+passenger.info.id+'&reply='+status, function (data) {
-            NotifyService.success('<span> status updated !<br/> '+passenger.info.f_name+'will be notified</span>');
+        Request.get('/driver_response_to_request?tran_id=' + rideId + '&pass_id=' + passenger.info.id + '&reply=' + status, function (data) {
+            NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + 'will be notified</span>');
         })
     }
 });

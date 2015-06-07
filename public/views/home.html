@@ -5,7 +5,7 @@
                  ng-click="selectTransport(type.name);clearForm()">
                 <h1 class="col-lg-12">{{type.h1}}</h1>
 
-                <h3 style="height: 60px;">{{type.h3}}</h3>
+                <h3 style="height: 100px;">{{type.h3}}</h3>
 
                 <div class="col-lg-12 col-sm-12 bottom-margin">
                     <img src="../img/{{type.name}}.png" class="opacity-hover" width="100%">
@@ -34,7 +34,6 @@
                             <div class="text-left">
                                 <timepicker ng-model="ride.time" hour-step="[1, 2, 3]"
                                             minute-step="[1, 5, 10, 15, 25, 30]" show-meridian="false"></timepicker>
-                                <pre class="alert alert-info">Time is: {{map.time | date:'shortTime' }}</pre>
                             </div>
                             <md-input-container class="text-left" ng-if="options['passenger']">
                                 <label>max price</label>
