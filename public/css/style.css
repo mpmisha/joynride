@@ -139,3 +139,17 @@ b{
     background: yellow;
     display: block;
 }
+
+.aboutUsProfile img{
+    transition: all .2s ease-in-out;
+    width:150px;
+    height: 150px;
+    border-radius: 75px;
+    -webkit-filter: grayscale(1) !important;
+    filter: grayscale(1);
+}
+.aboutUsProfile img:hover{
+    transform: scale(1.1);
+    -webkit-filter: grayscale(0) !important;
+    filter: grayscale(0);
+}
