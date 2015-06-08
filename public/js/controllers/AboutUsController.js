@@ -13,7 +13,7 @@ angular.module('joynRideApp').controller('AboutController', function($scope) {
             fname:'Shany',
             lname:'Radai',
             text:'A girl that makes things happen',
-            pic:'../img/profile.jpg'
+            pic:'../img/shani.jpg'
         },{
             fname:'Daniel',
             lname:'Kogan',
