@@ -16,13 +16,13 @@ angular.module('joynRideApp').controller('AboutController', function($scope) {
             pic:'../img/profile.jpg'
         },{
             fname:'Daniel',
-            lname:'Litvak',
+            lname:'Kogan',
             text:'A dude that does not sleep at all',
             pic:'../img/profile.png'
         },{
             fname:'Guy',
-            lname:'familyName',
-            text:'A man with no family name!',
+            lname:'Litvak',
+            text:'A man with a plan!',
             pic:'../img/profile.jpg'
         }
     ]
