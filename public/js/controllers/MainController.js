@@ -47,7 +47,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         h3: 'publish travels you want hitchhikers to join'
     }, {
         name: 'passenger',
-        h1: 'Join hitch',
+        h1: 'Join A hitch',
         h3: 'see available travels that suit you best'
     }
     ]
@@ -144,7 +144,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
     $scope.submitRide = function () { //driver presses submit button
 
         //Request.get('/insert_transaction?user_id='+JSON.parse(localStorage.user).user_id+'&src=Ashdod&srcx=31.804381&srcy=34.655314&dst=Tel-Aviv&dstx=32.0852999&dsty=34.7817676&time=15:25:00&date=2010-05-07&price=15&free_sits=4&radius=20&path=[{"x":31.804381,"y":34.655314},{"x":2,"y":8},{"x":67,"y":9}]'
-        Request.get('/insert_transaction?user_id=' + JSON.parse(localStorage.user).user_id + '&src=' + $scope.map.from.name + '&srcx=' + $scope.map.from.geometry.location.A + '&srcy=' + $scope.map.from.geometry.location.F + '&dst=' + $scope.map.to.name + '&dstx=' + $scope.map.to.geometry.location.A + '&dsty=' + $scope.map.to.geometry.location.F + '&time=' + extractTime($scope.ride.time) + '&date=' + extractDate($scope.ride.date) + '&price=' + $scope.ride.price + '&free_sits=' + $scope.ride.maxPlaces + '&radius=' + $scope.ride.radius + '&path=' + getPath()
+        Request.get('/insert_transaction?user_id=' + JSON.parse(localStorage.user).user_id + '&src=' + $scope.map.from.name + '&srcx=' + $scope.map.from.geometry.location.A + '&srcy=' + $scope.map.from.geometry.location.F + '&dst=' + $scope.map.to.name + '&dstx=' + $scope.map.to.geometry.location.A + '&dsty=' + $scope.map.to.geometry.location.F + '&time=' + extractTime($scope.ride.time) + '&date=' + extractDate($scope.ride.date) + '&price=' + $scope.ride.price + '&free_sits=' + $scope.ride.maxPlaces + '&radius=' + $scope.ride.radius + '&path=' + getPath()+'&msg='+$scope.ride.msg
             , function (data) {
                 NotifyService.success('<span>Your ride has been published<br/>have a nice trip!');
                 console.log('insert_transaction data -', data);

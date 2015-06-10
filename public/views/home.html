@@ -51,6 +51,10 @@
                                 <label>pickup radius</label>
                                 <input type="number" min="0" ng-model="ride.radius">
                             </md-input-container>
+                            <md-input-container class="text-left"  ng-if="options['driver']">
+                                <label>A personal message for the hikers </label>
+                                <input type="text" min="0" ng-model="ride.msg">
+                            </md-input-container>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <ui-gmap-google-map direction-service center="map.center" zoom="map.zoom" id="googleMap">
