@@ -73,7 +73,6 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
             (function (key) {
                 Request.get('/get_transaction_info?tran_id=' + key, function (travelInfo) {
                     if (!travelInfo.error) {
-                        window.scope.ppp = {travelInfo: travelInfo}
                         var path = JSON.parse(travelInfo.path);
                         var passengers = $scope.driverDrives[key];
                         $scope.driverDrives[key] = travelInfo;
@@ -155,6 +154,11 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
         console.log('passenger-', passenger);
         Request.get('/driver_response_to_request?tran_id=' + rideId + '&pass_id=' + passenger.info.id + '&reply=' + status, function (data) {
             NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + 'will be notified</span>');
+        })
+    }
+    $scope.updateMessage = function(key,value){
+        Request.get('/modify_msg?user_id=' + JSON.parse(localStorage.user).user_id + '&tran-id=' + key + '&msg=' + value.msg, function (data) {
+            NotifyService.success('<span> Message updated </span>!');
         })
     }
 });

@@ -26,6 +26,9 @@
                         <li>
                             <span class=""> # of passengers  : {{value.passengers.length}}</span>
                         </li>
+                        <li ng-if="value.msg">
+                            <span class="">message from driver :  <b>{{value.msg}}</b> </span>
+                        </li>
                     </ul>
             </div>
             <div class="col-lg-6 col-md-12" ng-show="value.showInfo">
@@ -55,6 +58,11 @@
                     </li>
                     <li>
                         <span class="">profit :  <b>{{value.price * value.passengers.length}}</b> </span>
+                    </li>
+                    <li ng-if="value.msg">
+                        <span class="">message for hikers :
+                        <input type="text" ng-model="value.msg" ng-blur="updateMessage(key,value)">
+                        </span>
                     </li>
                     <li>
                         <span class="" style="display: block;">passengers  :</span>
