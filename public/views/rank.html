@@ -2,10 +2,15 @@
     <h1>rank</h1>
     <section class="top-margin" layout="row" layout-margin layout-padding layout-wrap
              layout-align="space-around center">
-        <div ng-repeat="ride in ridesToRank|orderBy:['date','time','id'] " flex-gt-md="30" flex="66" class="well" layout="column">
+        <div ng-repeat="ride in ridesToRank|orderBy:['date','time','id'] " flex-gt-md="30" flex="66" class="well"
+             layout="column">
             <div class="col-lg-12" flex>
                 <h2>
-                    ranking id - {{ride.id}} <span ng-mouseover="dynamicPopover.ride=ride" popover-template='dynamicPopover.driverTemplate' popover-trigger="mouseenter" class="glyphicon glyphicon-question-sign" style="font-size:15px"></span>
+                    ranking id - {{ride.id}} <span ng-mouseover="dynamicPopover.ride=ride"
+                                                   popover-template='dynamicPopover.driverTemplate'
+                                                   popover-trigger="mouseenter"
+                                                   class="glyphicon glyphicon-question-sign"
+                                                   style="font-size:15px"></span>
                 </h2>
                 Please fill the following:<br/>
             </div>
@@ -13,15 +18,23 @@
                 <h3 class="question">
                     {{q.text}}
                 </h3>
+
                 <div layout="row" layout-wrap class="ratingContainer">
                     <div flex="33"></div>
                     <div layout="row" layout-align="center center" flex="33">
-                        <rating ng-model="ride[q.model].rate" max="rankConfig.maxRating" readonly="rankConfig.isReadonly"
+                        <rating ng-model="ride[q.model].rate" max="rankConfig.maxRating"
+                                readonly="rankConfig.isReadonly"
                                 state-on="star_full" state-off="star_empty" on-hover="hoveringOver(value)"
                                 on-leave="overStar = null" flex></rating>
                     </div>
                     <div flex="33"></div>
                 </div>
+            </div>
+            <hr>
+            <div style="border-top:1px solid darkgray;margin-bottom: 10px;" ng-click="irrelevant(ride)">
+                    <span style="float: left; color:darkred; font-size:20px; margin-left: 20px; padding-top:10px;"
+                          class="glyphicon glyphicon-remove"></span>
+                    <span style="float: left; font-size:20px; margin-left: 20px;padding-top:5px;">This rankign is irrelevant to me</span>
             </div>
             <md-button ng-click="submit(ride)" class="md-raised">Submit</md-button>
         </div>
@@ -29,11 +42,15 @@
 </div>
 
 <script type="text/ng-template" id="driverTemplate.html">
-    <div class="text-center bottom-margin"><b>{{dynamicPopover.ride.info.source}}</b> <span class="glyphicon glyphicon-arrow-right"></span> <b>{{dynamicPopover.ride.info.dest}}</b></div>
+    <div class="text-center bottom-margin"><b>{{dynamicPopover.ride.info.source}}</b> <span
+            class="glyphicon glyphicon-arrow-right"></span> <b>{{dynamicPopover.ride.info.dest}}</b></div>
     <div class="form-group">
         <ul class="list-group">
             <li class="list-group-item">
-                date : {{dynamicPopover.ride.date}} ,{{dynamicPopover.ride.time}}
+                date : {{dynamicPopover.ride.date | date:"dd-MM-yy"}}
+            </li>
+            <li class="list-group-item">
+                time : {{dynamicPopover.ride.time | limitTo:5}}
             </li>
             <li class="list-group-item">
                 driver : {{dynamicPopover.ride.driverInfo.f_name}} {{dynamicPopover.ride.driverInfo.l_name}}

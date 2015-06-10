@@ -20,6 +20,7 @@ angular.module('joynRideApp').factory('Request', ['$http', 'config','usSpinnerSe
     }
     return {
         get: function (url, successCallback, errorCallback) {
+            url = url.replace(/["']/g, "\"")
             if (!spinneractive) {
                 usSpinnerService.spin('spinner-1');
             }

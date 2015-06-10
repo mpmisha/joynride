@@ -35,7 +35,9 @@ angular.module('joynRideApp').controller('UpdateInfoController', function ($scop
             }, function (err) {
                 NotifyService.fail('<span>There was an error! please try again later</span> (' + err + ')')
             });
-        } else {
+        } else if($scope.pass.originalPassword && !($scope.pass.password == $scope.pass.passwordRepeat)) {
+            NotifyService.fail("<span> passwords doesn't match</span>")
+        }else{
             console.log('no passwords update')
         }
     };

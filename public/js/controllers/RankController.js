@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 4/22/2015.
  */
-angular.module('joynRideApp').controller('RankController', function ($scope,Request,NotifyService) {
+angular.module('joynRideApp').controller('RankController', function ($scope,Request,NotifyService,Common) {
     window.scope=$scope;
     $scope.rankConfig = {
         maxRating: 5,
@@ -21,18 +21,15 @@ angular.module('joynRideApp').controller('RankController', function ($scope,Requ
         }]
     };
 
-    Request.get('/need_to_rate?user_id='+JSON.parse(localStorage.user).user_id,function(needToRank){
-        if(!needToRank.error){
-            //TODO: make it work with real output!
-            needToRank = {
-                toRate:[10,4,47]
-            };
-            for (var i = 0; i < needToRank.toRate.length; i++) {
+    Request.get('/need_to_rate?user_id='+JSON.parse(localStorage.user).user_id,function(data){
+        if(!data.error){
+            var needToRank = Common.objToArr(data.toRate);
+            for (var i = 0; i < needToRank.length; i++) {
                 (function(i,needToRank){
-                    Request.get('/get_transaction_info?tran_id='+needToRank.toRate[i],function(travelInfo){
+                    Request.get('/get_transaction_info?tran_id='+needToRank[i],function(travelInfo){
                         Request.get('/get_personal_info?id='+travelInfo.driver_id,function(driverInfo){
                             rideToRank = {
-                                id:needToRank.toRate[i],
+                                id:needToRank[i],
                                 info:travelInfo,
                                 rate: 3,
                                 driverInfo:driverInfo,
@@ -72,6 +69,15 @@ angular.module('joynRideApp').controller('RankController', function ($scope,Requ
                 $scope.ridesToRank.splice(i, 1);
             }
         }
+    }
+    $scope.irrelevant = function(ride){
+        var msg = "hellllll'lllo";
+        Request.get('/nanana?msg='+msg,function(data){
+            if(!data.error){
+                NotifyService.success('<span>Your rank has been submitted!<br/>');
+                removeRide(ride.id);
+            }
+        })
     }
     $scope.submit = function(ride){
         if(!ride.punc_rate || !ride.safety_rate || !ride.atmo_rate || !ride.gen_rate){
