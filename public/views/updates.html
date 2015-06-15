@@ -23,10 +23,12 @@
                 <li>
                     <span class=""> driver : {{ride.driver.l_name}}&nbsp{{ride.driver.f_name}}</span>
                 </li>
-                <li ng-if="value.passengers">
-                    <ul ng-repeat="passenger in value.passengers">
-                        <li>pass 1 - {{passenger}}</li>
-                        <li>pass 1 - {{JSON.stringify(passenger)}}</li>
+                <li ng-if="ride.passengers">
+                    <ul ng-repeat="passenger in ride.passengers | orderBy:'-rating_level'">
+                        <li>Name - {{passenger.f_name}}&nbsp{{passenger.l_name}} </li>
+                        <li>Rating Level - {{passenger.rating_level}}</li>
+                        <li>email - {{passenger.uni_mail}} &nbsp ({{passenger.alt_mail}})</li>
+                        <li>phone - {{passenger.phone}}</li>
                     </ul>
                 </li>
                 <li ng-if="value.msg">

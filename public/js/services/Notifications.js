@@ -9,6 +9,7 @@ angular.module('joynRideApp').factory('NotificationService', ['Request', functio
     var maps = ['Join', 'CancelAsDriver'];
 
     function reset() {
+        counter=0;
         notifications = {
             Accepted: [],
             Rejected: [],
@@ -27,16 +28,24 @@ angular.module('joynRideApp').factory('NotificationService', ['Request', functio
                 Request.get('/notifications?user_id=' + JSON.parse(localStorage.user).user_id, function (notif) {
                         for (var obj in arrs) {
                             if (notif[arrs[obj]]) {
-                                counter += notif[arrs[obj]].length||0;
+                                counter += Object.keys(notif[arrs[obj]]).length;
                                 for (var ride in notif[arrs[obj]]) {
                                     notifications[arrs[obj]].push((notif[arrs[obj]])[ride]);
                                 }
                             }
                         }
                         for(var obj in maps){
-                            if (notif[maps[obj]]) {
-
-                                counter += notif[maps[obj]].length||0;
+                            if (notif[maps[obj]]){
+                                counter += Object.keys(notif[maps[obj]]).length;
+                                for (var ride in notif[maps[obj]]) {
+                                    var output={};
+                                    var transaction =[]
+                                    for(var passenger in notif[maps[obj]][ride]){
+                                        transaction.push(notif[maps[obj]][ride][passenger]);
+                                    }
+                                    output[ride]=transaction;
+                                    notifications[maps[obj]].push(output);
+                                }
                             }
                         }
                         console.log('notifications - ', notifications);
