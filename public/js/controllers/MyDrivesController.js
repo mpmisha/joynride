@@ -123,6 +123,7 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
                         }
                         info.id = passengerArray[i].trav_id;
                         passengerArray[i].info = info;
+                        passengerArray[i].rating = info.rating_level;
 
                     } else {
                         console.error('error getting info for passenger ' + passengerArray[i].trav_id + ', message - ', travelInfo.error);

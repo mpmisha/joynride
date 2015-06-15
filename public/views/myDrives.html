@@ -26,7 +26,7 @@
                         <li>
                             <span class=""> # of passengers  : {{value.passengers.length}}</span>
                         </li>
-                        <li ng-if="value.msg">
+                        <li ng-if="value.msg && value.msg!=undefined">
                             <span class="">message from driver :  <b>{{value.msg}}</b> </span>
                         </li>
                     </ul>
@@ -67,7 +67,7 @@
                     <li>
                         <span class="" style="display: block;">passengers  :</span>
 
-                        <div class="passenger" ng-repeat="passenger in value.passengers" style="float:left">
+                        <div class="passenger" ng-repeat="passenger in value.passengers | orderBy:'-rating'" style="float:left">
                             <div class="col-lg-6;" style="float:left; width:100px; height: 100px; display: block; margin-left:-25px; margin-top:25px;">
                                 <img ng-src="{{passenger.info.pic}}" class="bottom-margin profile-pic" width="100px" max-height="100px">
                             </div>
@@ -88,6 +88,9 @@
                                                 ng-options="status.label as status.label for status in passengerStatus"
                                                 ng-model="passenger.status" ng-change="updatePassengerStatus(passenger,key)"></select>
                                             <!--<b ng-class="passenger.status =='denied'?'text-red':(passenger.status=='approved'?'text-green':'text-blue')">{{passenger.status}}</b>-->
+                                        </li>
+                                        <li>
+                                            {{passenger.rating}}
                                         </li>
                                     </ul>
                                 </li>

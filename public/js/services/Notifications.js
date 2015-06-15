@@ -2,13 +2,13 @@
  * Created by Michael on 6/7/2015.
  */
 angular.module('joynRideApp').factory('NotificationService', ['Request', function (Request) {
-    var counter=0;
+    var counter = 0;
     var notifications;
 
     var arrs = ['Accepted', 'Rejected', 'CancelAsPassenger', 'RejectedAfterAccepted', 'PendingForCancelledTran'];
     var maps = ['Join', 'CancelAsDriver'];
 
-    function reset(){
+    function reset() {
         notifications = {
             Accepted: [],
             Rejected: [],
@@ -19,24 +19,32 @@ angular.module('joynRideApp').factory('NotificationService', ['Request', functio
             PendingForCancelledTran: []
         };
     }
+
     reset();
     return {
         updateNotifications: function (callback) {
-            console.log('updating');
-            Request.get('/notifications?user_id=' + JSON.parse(localStorage.user).user_id, function (notif) {
-                    for (var obj in arrs) {
-                        if (notif[obj]) {
-                            counter+=notif[obj].length;
-                            for (var i = 0; i < notif[obj].length; i++) {
-                                notifications[obj].push((notif[obj])[i]);
+            if (localStorage.user) {
+                Request.get('/notifications?user_id=' + JSON.parse(localStorage.user).user_id, function (notif) {
+                        for (var obj in arrs) {
+                            if (notif[arrs[obj]]) {
+                                counter += notif[arrs[obj]].length||0;
+                                for (var ride in notif[arrs[obj]]) {
+                                    notifications[arrs[obj]].push((notif[arrs[obj]])[ride]);
+                                }
                             }
                         }
+                        for(var obj in maps){
+                            if (notif[maps[obj]]) {
+
+                                counter += notif[maps[obj]].length||0;
+                            }
+                        }
+                        console.log('notifications - ', notifications);
+                        if (callback) callback(notif);
+                        return notif;
                     }
-                    console.log('notifications - ',notifications);
-                    if (callback) callback(notif);
-                    return notif;
-                }
-            )
+                )
+            }
         },
         getNotifications: function (callback) {
             if (callback) callback(JSON.parse(JSON.stringify(notifications)));
