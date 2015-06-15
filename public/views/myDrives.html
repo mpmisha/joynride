@@ -9,7 +9,7 @@
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
                 <span class="side-margin">Status : <b
                         ng-class="value.status=='denied'?'text-red':(value.status=='approved'?'text-green':'text-blue')">{{value.status}}</b></span>
-                <span style="float:right" class="glyphicon glyphicon-remove remove" tooltip="cancel request"></span>
+                <span style="float:right" class="glyphicon glyphicon-remove remove" tooltip="cancel request" ng-click="passengerCancelDrive(key,value.status)"></span>
             </div>
             <div layout="row" layout-align="center left" ng-show="value.showInfo"
                  class="well top-margin  body col-lg-6 col-md-12">
@@ -40,7 +40,7 @@
 <div class="text-center" ng-show="!isEmpty(driverDrives)">
     <h1>My Drives as a Driver</h1>
     <section class="top-margin" layout="column" layout-sm="column" layout-align="center center">
-        <div ng-repeat="(key,value) in driverDrives" class="well col-lg-6 col-md-6 myDriveItem">
+        <div ng-repeat="(key,value) in driverDrives" class="well col-lg-6 col-md-6 myDriveItem" ng-hide="value.hide">
             <div layout="row" layout-align="center left" class="title"
                  ng-click="value.showInfo=!value.showInfo;getPassengers(value)">
                 <span class="side-margin"><b>{{key}}</b> : </span>
@@ -48,7 +48,7 @@
                 <span class="side-margin">from <u>{{value.source}}</u> To <u>{{value.dest}}</u></span>
                 <span class="side-margin"><b> # of passengers : {{value.passengers.length}}</b></span>
                 <span class="side-margin"><b> (approved: {{getApprovedPassengers(value)}})</b></span>
-                <span style="float:right" class="glyphicon glyphicon-remove remove" tooltip="cancel drive"></span>
+                <span style="float:right" class="glyphicon glyphicon-remove remove" tooltip="cancel drive" ng-click="driverCancelDrive(key);value.hide=true;"></span>
             </div>
             <div layout="row" layout-align="center left" ng-show="value.showInfo"
                  class="well top-margin body col-lg-6 col-md-12">
@@ -59,7 +59,7 @@
                     <li>
                         <span class="">profit :  <b>{{value.price * value.passengers.length}}</b> </span>
                     </li>
-                    <li ng-if="value.msg">
+                    <li ng-if="value.hadMsg">
                         <span class="">message for hikers :
                         <input type="text" ng-model="value.msg" ng-blur="updateMessage(key,value)">
                         </span>
@@ -98,13 +98,13 @@
             </div>
             <div class="col-lg-6 col-md-12" ng-show="value.showInfo">
 
-                //TODO : FINish THis!!
-                <ui-gmap-google-map direction-service center="map.center" zoom="map.zoom" id="googleMap">
-                    <ui-gmap-marker coords="map.markers.from.coordinates" idkey="1"
-                                    ng-if="value.from"></ui-gmap-marker>
-                    <ui-gmap-marker coords="map.markers.to.coordinates" idkey="2"
-                                    ng-if="value.to"></ui-gmap-marker>
-                </ui-gmap-google-map>
+                <!--//TODO : FINish THis!!-->
+                <!--<ui-gmap-google-map direction-service center="map.center" zoom="map.zoom" id="googleMap">-->
+                    <!--<ui-gmap-marker coords="map.markers.from.coordinates" idkey="1"-->
+                                    <!--ng-if="value.from"></ui-gmap-marker>-->
+                    <!--<ui-gmap-marker coords="map.markers.to.coordinates" idkey="2"-->
+                                    <!--ng-if="value.to"></ui-gmap-marker>-->
+                <!--</ui-gmap-google-map>-->
             </div>
         </div>
     </section>

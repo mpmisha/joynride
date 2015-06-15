@@ -204,7 +204,7 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
                     console.log('data  -', data)
                     NotifyService.success('<span>The request has been submited!<br/> Watch out for updates soon!</span>')
                 } else {
-                    NotifyService.error('<span>There was a problem with the request <br/>please try again later!</span>')
+                    NotifyService.fail('<span>There was a problem with the request <br/>please try again later!</span>')
                     console.error(data);
                 }
             },

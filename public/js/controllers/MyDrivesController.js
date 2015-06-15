@@ -76,6 +76,7 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
                         var path = JSON.parse(travelInfo.path);
                         var passengers = $scope.driverDrives[key];
                         $scope.driverDrives[key] = travelInfo;
+                        $scope.driverDrives[key].hadMsg = travelInfo.msg?1:0;
                         $scope.driverDrives[key].passengers = passengers;
                         $scope.driverDrives[key].showInfo = false;
                         $scope.driverDrives[key].map = {
@@ -152,12 +153,46 @@ angular.module('joynRideApp').controller('MyDrivesController', function ($scope,
     $scope.updatePassengerStatus = function (passenger, rideId) {
         var status = passenger.status == 'rejected' ? 2 : (passenger.status == 'approved' ? 1 : 0);
         console.log('passenger-', passenger);
-        Request.get('/driver_response_to_request?tran_id=' + rideId + '&pass_id=' + passenger.info.id + '&reply=' + status, function (data) {
-            NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + 'will be notified</span>');
-        })
+        if (status == 0) {
+            Request.get('/driver_cancel_one_passenger?driver_id=' + JSON.parse(localStorage.user).user_id + '&tran_id=' + rideId + '&pass_id=' + passenger.info.id, function (data) {
+                NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + ' will be notified</span>');
+            })
+        } else {
+            Request.get('/driver_response_to_request?tran_id=' + rideId + '&pass_id=' + passenger.info.id + '&reply=' + status, function (data) {
+                if (!data.error) {
+                    NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + ' will be notified</span>');
+                }
+            })
+        }
     }
-    $scope.updateMessage = function(key,value){
-        Request.get('/modify_msg?user_id=' + JSON.parse(localStorage.user).user_id + '&tran-id=' + key + '&msg=' + value.msg, function (data) {
+    $scope.driverCancelDrive = function (driveId) {
+        Request.get('/driver_cancel?driver_id=' + JSON.parse(localStorage.user).user_id + '&tran_id=' + driveId, function (data) {
+            if (!data.error) {
+                NotifyService.success('<span> status updated !<br/> all passengers  will be notified</span>');
+            }
+        })
+    };
+
+    $scope.passengerCancelDrive = function(driveId,status){
+        if(status=='approved' || status=='denied'){
+            Request.get('/hiker_cancel?hiker_id='+JSON.parse(localStorage.user).user_id+'&tran_id=' + driveId, function (data) {
+                if (!data.error) {
+                    NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + ' will be notified</span>');
+                }
+            });
+        }else{
+            Request.get('/cancel_request?hiker_id='+JSON.parse(localStorage.user).user_id+'&tran_id=' + driveId, function (data) {
+                if (!data.error) {
+                    NotifyService.success('<span> status updated !<br/> ' + passenger.info.f_name + ' will be notified</span>');
+                }
+            });
+
+        }
+
+    };
+
+    $scope.updateMessage = function (key, value) {
+        Request.get('/modify_msg?user_id=' + JSON.parse(localStorage.user).user_id + '&tran_id=' + key + '&msg=' + value.msg, function (data) {
             NotifyService.success('<span> Message updated </span>!');
         })
     }

@@ -23,6 +23,15 @@
                 <li>
                     <span class=""> driver : {{ride.driver.l_name}}&nbsp{{ride.driver.f_name}}</span>
                 </li>
+                <li ng-if="value.passengers">
+                    <ul ng-repeat="passenger in value.passengers">
+                        <li>pass 1 - {{passenger}}</li>
+                        <li>pass 1 - {{JSON.stringify(passenger)}}</li>
+                    </ul>
+                </li>
+                <li ng-if="value.msg">
+                    <span class="">message from driver :  <b>{{value.msg}}</b> </span>
+                </li>
             </ul>
         </div>
     </div>

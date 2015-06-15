@@ -1,7 +1,7 @@
 /**
  * Created by Michael on 4/22/2015.
  */
-angular.module('joynRideApp').controller('AboutController', function($scope) {
+angular.module('joynRideApp').controller('AboutController', function($scope,Request) {
     $scope.message = 'Look! I am an about page.';
     $scope.members=[
         {
@@ -26,4 +26,10 @@ angular.module('joynRideApp').controller('AboutController', function($scope) {
             pic:'../img/profile.jpg'
         }
     ]
+
+    $scope.getStatistics = function(){
+        Request('/get_statistics',function(data){
+
+        })
+    }
 });

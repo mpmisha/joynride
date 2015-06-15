@@ -20,7 +20,7 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                     //console.log("get_personal_info - ", userInfo);
                     userInfo.ridesToRank = 5;
                     userInfo.user_id = data.user_id;
-                    userInfo.token = '123'; //TODO:for authentication purpose...
+                    userInfo.token = '123'; //  TODO:for authentication purpose...
                     localStorage.setItem('user', JSON.stringify(userInfo));
                     NotificationService.updateNotifications(function () {
                         NotificationService.getNotifications(function (notifications) {

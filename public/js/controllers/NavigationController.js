@@ -14,6 +14,7 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
         {label: 'Home', route: '/'},
         {label: 'rank', route: '/rank'},
         {label: 'About', route: '/about'},
+        {label: 'Tutorial', route: '/tutorial'},
         {label: 'My Drives', route: '/myDrives'},
         {label: 'Contact', route: '/contact'}
     ]
@@ -22,21 +23,21 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
     };
 
     function updateNotifications(){
-        NotificationService.getNotifications(function(notifications){
+        NotificationService.updateNotifications(function(notifications){
             $scope.notifications = notifications;
             NotificationService.countNotifications(function(count){
-                console.log("counting...");
                 $scope.notifCount=count;
             })
         })
     }
     updateNotifications();
-    $interval(updateNotifications,20000);
+    //$interval(updateNotifications,20000);
 
     $scope.menuActive = '/';
     $rootScope.$on('$routeChangeSuccess', function (e, curr, prev) {
         $scope.menuActive = $location.path();
         $scope.user = Auth.getUser();
+        console.log('trying to - updateNotifications');
         updateNotifications();
     });
 
@@ -61,7 +62,7 @@ angular.module('joynRideApp').controller('NavigationController', ['$scope', '$ro
 
 angular.module('joynRideApp').run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
     $rootScope.$on('$routeChangeStart', function (event,next) {
-        if (!Auth.isLoggedIn() && next.$$route.originalPath !='/signup' && next.$$route.originalPath !='/about' && next.$$route.originalPath !='/auth' ) {
+        if (!Auth.isLoggedIn() && next.$$route.originalPath !='/signup' && next.$$route.originalPath !='/about' && next.$$route.originalPath !='/auth' && next.$$route.originalPath !='/tutorial' && next.$$route.originalPath !='/contact' ) {
             //console.log('DENY');
             $location.path('/login');
         } else {
