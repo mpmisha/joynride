@@ -15,7 +15,7 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
         //Request.get('/authentication?userName=guylitvak&password=g123', function (data) {
         Request.get('/authentication?userName=' + $scope.user.userName + '&password=' + $scope.user.password, function (data) { //TODO:switch to this
             //console.log("authentication good - ", data);
-            if (!data.error) {
+            if (!data.error && data.is_active!=0 ) {
                 Request.get('/get_personal_info?id=' + data.user_id, function (userInfo) {
                     //console.log("get_personal_info - ", userInfo);
                     userInfo.ridesToRank = 5;
@@ -56,8 +56,10 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                 }, function (err) {
                     //console.log('user data error -', err);
                 });
-            } else {
-                NotifyService.fail('<span>' + data.error + '</span>');
+            } else if(data.is_active==0) {
+                NotifyService.fail('<span>could it be you did not activate your account?</span>');
+            }else{
+                NotifyService.fail('<span>There has been an error!</span>');
             }
         })
     }

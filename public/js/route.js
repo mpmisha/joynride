@@ -21,6 +21,9 @@ joynRideApp.config(function($routeProvider) {
     }).when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutController'
+    }).when('/auth', {
+        templateUrl: 'views/auth.html',
+        controller: 'AuthController'
     }).when('/contact', {
         templateUrl: 'views/contact.html',
         controller: 'ContactController'
