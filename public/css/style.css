@@ -160,3 +160,10 @@ b{
     font-size: 32px;
     color: darkred;
 }
+
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand{
+    height: 90px;
+}
+.navbar-nav>li{
+    padding-top:20px;
+}
