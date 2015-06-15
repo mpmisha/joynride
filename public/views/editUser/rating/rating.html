@@ -1,10 +1,22 @@
-<div class="well" ng-repeat="(key,value) in rating" style="height: 60px;">
+<div ng-if="amount>0">
+    <p style="text-align: center">you have been rated {{amount}} times : </p>
+
+    <div class="well" ng-repeat="(key,value) in rating" style="height: 60px;">
         <div class="pull-left col-lg-5">
-                {{key.replace('_',' ')}}
+            {{key.replace('_',' ')}}
         </div>
         <div class="pull-right col-lg-5">
-                <rating ng-model="value" class="ratingContainer" readonly="true"
-                        state-on="star_full" state-off="star_empty"
-                         flex></rating>({{value}})
+            <rating ng-model="value" class="ratingContainer" readonly="true"
+                    state-on="star_full" state-off="star_empty"
+                    flex></rating>
+            ({{value}})
         </div>
+    </div>
+</div>
+<div ng-if="amount==0" class="well">
+    <p><b>Oh boy! </b><br/>It looks like no one has rated you yet! <br/>
+    In order to upgrade your status in the system you should encourage your passengers to answer<br/>
+        the quick survey on Joy'N'ride ! <br/>
+        You will get your rating prompt and the passengers will increase their chance to getting on a ride!
+    </p>
 </div>

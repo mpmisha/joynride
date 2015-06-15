@@ -3,17 +3,15 @@
  */
 angular.module('joynRideApp').controller('ratingController', function ($scope, $http, $window, $location, config, Request) {
 
-    window.rating = $scope;
     $scope.rating = {}
-    Request.get('/return_rate?id=' + JSON.parse(localStorage.user).user_id, function (data) {
-        $scope.rating = data;
-    }, function () {
+    Request.get('/return_rate?driver_id=' + JSON.parse(localStorage.user).user_id, function (data) {
         $scope.rating = {
-            punctuality: 4,
-            safety: 3.5,
-            atmosphere: 5,
-            general_rank: 4.5
+            punctuality: data.punctuality,
+            safety: data.safety,
+            atmosphere: data.atmosphere,
+            general_rank: data.general_rank
         };
+        $scope.amount=data.count;
     });
 
     $scope.hoveringOver = function (value) {
