@@ -24,7 +24,7 @@ angular.module('joynRideApp').controller('UpdatesController', ['$scope', 'Notifi
         console.log('notif - ', notif);
         $scope.notifications = notif;
         for (var key in $scope.notifications) {
-            if (key == 'Join' || key=='CancelAsDriver') {
+            if (key == 'Join') {
                 for (var ride in $scope.notifications[key]) {
                     (function (obj, i) {
                         for(var rideId in obj[i]){
@@ -50,7 +50,33 @@ angular.module('joynRideApp').controller('UpdatesController', ['$scope', 'Notifi
 
                     })($scope.notifications[key], ride)
                 }
-            } else {
+            } else if(key=='CancelAsDriver'){
+                for (var ride in $scope.notifications[key]) {
+                    (function (obj, i) {
+                        for(var rideId in obj[i]){
+                            Request.get('/get_canceled_transaction_info?tran_id=' + rideId, function (data) {
+                                var pass =obj[i][rideId];
+                                obj[i] = data;
+                                obj[i].showInfo = false;
+                                obj[i].id = rideId;
+                                obj[i].tempPassengers = pass;
+                                obj[i].passengers=[];
+                                for (var passenger in obj[i].tempPassengers) {
+                                    if(obj[i].tempPassengers[passenger]){
+                                        Request.get('/get_personal_info?id=' + obj[i].tempPassengers[passenger], function (info) {
+                                            var pass1 = info
+                                            pass1.id = passenger;
+                                            obj[i].passengers.push(pass1);
+                                        });
+                                    }
+
+                                }
+                            })
+                        }
+
+                    })($scope.notifications[key], ride)
+                }
+            } else{
                 for (var subKey in $scope.notifications[key]) {
                     (function (obj, i) {
                         rideId = obj[i];
