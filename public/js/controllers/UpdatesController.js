@@ -7,9 +7,9 @@ angular.module('joynRideApp').controller('UpdatesController', ['$scope', 'Notifi
         Rejected: 'unfortunately your request to join the following rides has been rejected by the driver!',
         Join: 'Hey! The following people would like to join your rides!',
         CancelAsDriver: 'oops! seems like this drives were canceled by the driver!',
-        CancelAsPassenger: 'oops! seems like this passengers had a change of heart!',
-        RejectedAfterAccepted:'oh boy! it seems the following drivers has changes their mind about your ride! <br/> what a bless that we have notifocations!',
-        PendingForCancelledTran:'maaaan, this drivers have canceled the ride! sorry dude!'
+        CancelAsPassenger: 'oops! seems like this driver had a change of heart!',
+        RejectedAfterAccepted: 'oh boy! it seems the following drivers has changes their mind about your ride! <br/> what a bless that we have notifocations!',
+        PendingForCancelledTran: 'maaaan, this drivers have canceled the ride! sorry dude!'
     }
     var rideId;
     window.s = $scope;
@@ -21,22 +21,22 @@ angular.module('joynRideApp').controller('UpdatesController', ['$scope', 'Notifi
     }, 2000);
 
     NotificationService.getNotifications(function (notif) {
-        console.log('notif - ', notif);
+        //console.log('notif - ', notif);
         $scope.notifications = notif;
         for (var key in $scope.notifications) {
             if (key == 'Join') {
                 for (var ride in $scope.notifications[key]) {
                     (function (obj, i) {
-                        for(var rideId in obj[i]){
+                        for (var rideId in obj[i]) {
                             Request.get('/get_transaction_info?tran_id=' + rideId, function (data) {
-                                var pass =obj[i][rideId];
+                                var pass = obj[i][rideId];
                                 obj[i] = data;
                                 obj[i].showInfo = false;
                                 obj[i].id = rideId;
                                 obj[i].tempPassengers = pass;
-                                obj[i].passengers=[];
+                                obj[i].passengers = [];
                                 for (var passenger in obj[i].tempPassengers) {
-                                    if(obj[i].tempPassengers[passenger]){
+                                    if (obj[i].tempPassengers[passenger]) {
                                         Request.get('/get_personal_info?id=' + obj[i].tempPassengers[passenger], function (info) {
                                             var pass1 = info
                                             pass1.id = passenger;
@@ -50,19 +50,19 @@ angular.module('joynRideApp').controller('UpdatesController', ['$scope', 'Notifi
 
                     })($scope.notifications[key], ride)
                 }
-            } else if(key=='CancelAsDriver'){
+            } else if (key == 'CancelAsDriver') {
                 for (var ride in $scope.notifications[key]) {
                     (function (obj, i) {
-                        for(var rideId in obj[i]){
+                        for (var rideId in obj[i]) {
                             Request.get('/get_canceled_transaction_info?tran_id=' + rideId, function (data) {
-                                var pass =obj[i][rideId];
+                                var pass = obj[i][rideId];
                                 obj[i] = data;
                                 obj[i].showInfo = false;
                                 obj[i].id = rideId;
                                 obj[i].tempPassengers = pass;
-                                obj[i].passengers=[];
+                                obj[i].passengers = [];
                                 for (var passenger in obj[i].tempPassengers) {
-                                    if(obj[i].tempPassengers[passenger]){
+                                    if (obj[i].tempPassengers[passenger]) {
                                         Request.get('/get_personal_info?id=' + obj[i].tempPassengers[passenger], function (info) {
                                             var pass1 = info
                                             pass1.id = passenger;
@@ -76,7 +76,7 @@ angular.module('joynRideApp').controller('UpdatesController', ['$scope', 'Notifi
 
                     })($scope.notifications[key], ride)
                 }
-            } else{
+            } else {
                 for (var subKey in $scope.notifications[key]) {
                     (function (obj, i) {
                         rideId = obj[i];

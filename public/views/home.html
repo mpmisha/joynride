@@ -66,8 +66,9 @@
                         </div>
                     </div>
                     <md-button class="md-raised col-lg-12 col-md-12 col-sm-12 top-margin"
-                               ng-click="options.passenger?sendRequest():submitRide()">
-                        Submit request
+                               ng-click="options.passenger?sendRequest():submitRide();closeAll()">
+                        <span ng-if="options.passenger">Submit Request</span>
+                        <span ng-if="!options.passenger">Submit Ride</span>
                     </md-button>
                 </div>
             </section>

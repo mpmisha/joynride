@@ -7,7 +7,6 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
     $scope.options = {
         driver: false,
         passenger: false
-
     };
     $scope.ride = {
         time: new Date(),
@@ -60,6 +59,12 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
 
     $scope.alert = function (message) {
         $window.alert(message);
+    }
+    $scope.closeAll = function(){
+        $scope.options = {
+            driver: false,
+            passenger: false
+        };
     }
     $scope.selectTransport = function (option) {
         for (var key in $scope.options) {
@@ -173,13 +178,13 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
                                 Request.get('/return_rate?driver_id=' + travelObj.drive.driver_id
                                     , function (data) {
                                         travelObj.driver.rate = data;
-                                        travelObj.driver.avg = getAvgRate(data);
+                                        travelObj.driver.avg = data.general_rank;//getAvgRate(data);
                                         $scope.travelInfoArr.push(travelObj);
                                         scrollToResults();
                                         updateData();
                                     }, function (err) {
                                         travelObj.driver.rate = null;
-                                        travelObj.driver.avg = getAvgRate(data);
+                                        travelObj.driver.avg = data.general_rank;//getAvgRate(data);
                                         $scope.travelInfoArr.push(travelObj);
                                         scrollToResults();
                                         updateData();
