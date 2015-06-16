@@ -6,6 +6,9 @@ joynRideApp.config(function($routeProvider) {
     $routeProvider.when('/', {
         templateUrl: 'views/home.html',
         controller: 'MainController'
+    }).when('/#', {
+        templateUrl: 'views/home.html',
+        controller: 'MainController'
     }).when('/home', {
         templateUrl: 'views/home.html',
         controller: 'MainController'
