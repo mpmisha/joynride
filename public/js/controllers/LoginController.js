@@ -33,7 +33,7 @@ angular.module('joynRideApp').controller('LoginController', function ($scope, $h
                             var needToRank = Common.objToArr(data.toRate);
 
 
-                            var msg = '<span>Hi ' + ( userInfo.f_name ? userInfo.f_name : "there" ) + 'xxx<br/>you need to rank ' + needToRank.length + ' ride' + (needToRank.length > 1 ? "s" : "") + ' <br/><a href="#/rank">Rank Now</a></span>';
+                            var msg = '<span>Hi ' + ( userInfo.f_name ? userInfo.f_name : "there" ) + '<br/>you need to rank ' + needToRank.length + ' ride' + (needToRank.length > 1 ? "s" : "") + ' <br/><a href="#/rank">Rank Now</a></span>';
                             var duration = 5000
 
                             if (needToRank.length > 0 && needToRank.length <= 2) {
