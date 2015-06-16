@@ -61,10 +61,10 @@ angular.module('joynRideApp').controller('MainController', function ($scope, $wi
         $window.alert(message);
     }
     $scope.closeAll = function(){
-        $scope.options = {
-            driver: false,
-            passenger: false
-        };
+        //$scope.options = {
+        //    driver: false,
+        //    passenger: false
+        //};
     }
     $scope.selectTransport = function (option) {
         for (var key in $scope.options) {
